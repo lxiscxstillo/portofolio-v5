@@ -10,14 +10,15 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Briefcase,
 } from "lucide-react";
 
 const PAGE_SIZE = 10;
 
 const Card = ({ children, className = "" }) => (
   <div className={`relative group ${className}`}>
-    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-500 pointer-events-none" />
-    <div className="relative bg-white/5 backdrop-blur-xl border border-white/12 rounded-2xl h-full">
+    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#ffffff] to-[#e5e7eb] rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-500 pointer-events-none" />
+    <div className="relative bg-[#141414] backdrop-blur-xl border border-white/20 rounded-2xl h-full">
       {children}
     </div>
   </div>
@@ -84,7 +85,9 @@ export default function Comments() {
       result = result.filter(
         (c) =>
           (c.user_name || "").toLowerCase().includes(q) ||
-          (c.content || "").toLowerCase().includes(q),
+          (c.content || "").toLowerCase().includes(q) ||
+          (c.user_role || "").toLowerCase().includes(q) ||
+          (c.user_company || "").toLowerCase().includes(q),
       );
     }
     return result;
@@ -100,9 +103,9 @@ export default function Comments() {
       <div className="flex items-start sm:items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-xl blur opacity-50 pointer-events-none" />
-            <div className="relative w-9 h-9 bg-[#030014] rounded-xl border border-white/15 flex items-center justify-center">
-              <MessageSquare className="w-4 h-4 text-indigo-400" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#ffffff] to-[#e5e7eb] rounded-xl blur opacity-50 pointer-events-none" />
+            <div className="relative w-9 h-9 bg-[#0A0A0A] rounded-xl border border-white/15 flex items-center justify-center">
+              <MessageSquare className="w-4 h-4 text-white" />
             </div>
           </div>
           <div>
@@ -126,7 +129,7 @@ export default function Comments() {
               onClick={() => setFilter(tab.value)}
               className={`flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm transition-all duration-200 ${
                 filter === tab.value
-                  ? "bg-gradient-to-r from-indigo-500/25 to-purple-500/20 border border-indigo-500/35 text-white font-medium"
+                  ? "bg-gradient-to-r from-white/25 to-gray-400/20 border border-white/35 text-white font-medium"
                   : "text-gray-500 hover:text-gray-300"
               }`}
             >
@@ -134,7 +137,7 @@ export default function Comments() {
               <span
                 className={`px-1.5 py-0.5 rounded-full text-xs ${
                   filter === tab.value
-                    ? "bg-indigo-500/25 text-indigo-300"
+                    ? "bg-white/25 text-white"
                     : "bg-white/8 text-gray-500"
                 }`}
               >
@@ -148,12 +151,12 @@ export default function Comments() {
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-3">
         {[
-          { label: "Total", value: comments.length, color: "text-indigo-400" },
-          { label: "Pinned", value: pinnedCount, color: "text-purple-400" },
+          { label: "Total", value: comments.length, color: "text-white" },
+          { label: "Pinned", value: pinnedCount, color: "text-gray-200" },
           {
             label: "Unpinned",
             value: comments.length - pinnedCount,
-            color: "text-blue-400",
+            color: "text-white",
           },
         ].map((stat) => (
           <Card key={stat.label}>
@@ -174,8 +177,8 @@ export default function Comments() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by name or message..."
-          className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-10 py-2.5 text-gray-200 placeholder-gray-600 text-sm outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+          placeholder="Search by name, role, company, or message..."
+          className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-10 py-2.5 text-gray-200 placeholder-gray-600 text-sm outline-none focus:border-white/50 focus:ring-1 focus:ring-white/20 transition-all"
         />
         {search && (
           <button
@@ -198,13 +201,13 @@ export default function Comments() {
       {/* Comments List */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="w-7 h-7 border-2 border-white/10 border-t-indigo-500 rounded-full animate-spin" />
+          <div className="w-7 h-7 border-2 border-white/10 border-t-white rounded-full animate-spin" />
         </div>
       ) : paginated.length === 0 ? (
         <Card>
           <div className="p-14 text-center">
-            <MessageSquare className="w-10 h-10 text-gray-700 mx-auto mb-3" />
-            <p className="text-gray-500 text-sm">
+            <MessageSquare className="w-10 h-10 text-white/25 mx-auto mb-3" />
+            <p className="text-gray-400 text-sm font-medium">
               {search
                 ? "No comments match your search."
                 : filter === "pinned"
@@ -218,36 +221,31 @@ export default function Comments() {
           {paginated.map((comment) => (
             <div key={comment.id} className="relative group">
               {comment.is_pinned && (
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-2xl blur opacity-15 pointer-events-none" />
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#ffffff] to-[#e5e7eb] rounded-2xl blur opacity-15 pointer-events-none" />
               )}
               <div
                 className={`relative bg-white/5 backdrop-blur-xl border rounded-2xl px-4 py-4 sm:px-5 transition-all duration-200 ${
                   comment.is_pinned
-                    ? "border-indigo-500/30"
+                    ? "border-white/30"
                     : "border-white/10 hover:border-white/18"
                 }`}
               >
                 <div className="flex items-start gap-3 sm:gap-4">
                   {/* Avatar */}
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/10 flex items-center justify-center shrink-0">
-                    <img
-                      src={comment.profile_image || "/default-avatar.jpg"}
-                      alt="Avatar"
-                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover"
-                    />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-white font-semibold text-sm uppercase">
+                    {(comment.user_name || "A").charAt(0)}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span className="text-sm font-semibold text-white">
-                        {/* Highlight search match in name */}
                         {highlightMatch(
                           comment.user_name || "Anonymous",
                           search,
                         )}
                       </span>
                       {comment.is_pinned && (
-                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-500/15 border border-indigo-500/25 text-indigo-300 text-xs">
+                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/15 border border-white/25 text-white text-xs">
                           <Pin className="w-2.5 h-2.5" /> Pinned
                         </span>
                       )}
@@ -256,8 +254,15 @@ export default function Comments() {
                         {formatDate(comment.created_at)}
                       </span>
                     </div>
+                    {(comment.user_role || comment.user_company) && (
+                      <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                        <Briefcase className="w-3 h-3 opacity-60 shrink-0" />
+                        {comment.user_role && comment.user_company
+                          ? `${comment.user_role} at ${comment.user_company}`
+                          : comment.user_role || comment.user_company}
+                      </p>
+                    )}
                     <p className="text-gray-300 text-sm leading-relaxed">
-                      {/* Highlight search match in content */}
                       {highlightMatch(comment.content || "", search)}
                     </p>
                   </div>
@@ -269,8 +274,8 @@ export default function Comments() {
                       title={comment.is_pinned ? "Unpin" : "Pin"}
                       className={`p-2 rounded-lg border transition-all duration-200 ${
                         comment.is_pinned
-                          ? "border-indigo-500/30 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20"
-                          : "border-white/10 text-gray-500 hover:text-indigo-400 hover:border-indigo-500/25"
+                          ? "border-white/30 bg-white/10 text-white hover:bg-white/20"
+                          : "border-white/10 text-gray-500 hover:text-white hover:border-white/25"
                       }`}
                     >
                       {comment.is_pinned ? (
@@ -333,7 +338,7 @@ export default function Comments() {
                     onClick={() => setPage(p)}
                     className={`min-w-[32px] h-8 px-2 rounded-lg text-xs border transition-all duration-200 ${
                       page === p
-                        ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-300 font-medium"
+                        ? "bg-white/20 border-white/40 text-white font-medium"
                         : "border-white/10 text-gray-400 hover:text-white hover:border-white/20"
                     }`}
                   >
@@ -366,7 +371,7 @@ function highlightMatch(text, query) {
   const parts = text.split(regex);
   return parts.map((part, i) =>
     regex.test(part) ? (
-      <mark key={i} className="bg-indigo-500/30 text-indigo-200 rounded px-0.5">
+      <mark key={i} className="bg-white/30 text-white rounded px-0.5">
         {part}
       </mark>
     ) : (

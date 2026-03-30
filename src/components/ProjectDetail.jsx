@@ -110,7 +110,7 @@ const handleGithubClick = (githubLink) => {
       text: "Maaf, source code untuk proyek ini bersifat privat.",
       confirmButtonText: "Mengerti",
       confirmButtonColor: "#3085d6",
-      background: "#030014",
+      background: "#0A0A0A",
       color: "#ffffff",
     });
     return false;
@@ -137,7 +137,7 @@ const ProjectDetails = () => {
         ...selectedProject,
         Features: selectedProject.Features || [],
         TechStack: selectedProject.TechStack || [],
-        Github: selectedProject.Github || "https://github.com/EkiZR",
+        Github: selectedProject.Github || "https://github.com/lxiscxstillo",
       };
       setProject(enhancedProject);
     }
@@ -145,7 +145,7 @@ const ProjectDetails = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#030014] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
         <div className="text-center space-y-6 animate-fadeIn">
           <div className="w-16 h-16 md:w-24 md:h-24 mx-auto border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
           <h2 className="text-xl md:text-3xl font-bold text-white">
@@ -156,25 +156,25 @@ const ProjectDetails = () => {
     );
   }
 
-  const projectUrl = `https://ekizr.com/project/${toSlug(project.Title)}`;
+  const projectUrl = `https://lxiscxstillo.vercel.app/project/${toSlug(project.Title)}`;
 
   return (
     <>
       <Helmet>
-        <title>{project.Title} — Eki Zulfar Rachman</title>
+        <title>{project.Title} — Luis Esteban Castillo Pedroza</title>
         <meta
           name="description"
           content={
             project.Description
               ? project.Description.slice(0, 155)
-              : `Project ${project.Title} oleh Eki Zulfar Rachman — Frontend Web Developer.`
+              : `Project ${project.Title} oleh Luis Esteban Castillo Pedroza — Frontend Web Developer.`
           }
         />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={projectUrl} />
         <meta
           property="og:title"
-          content={`${project.Title} — Eki Zulfar Rachman`}
+          content={`${project.Title} — Luis Esteban Castillo Pedroza`}
         />
         <meta
           property="og:description"
@@ -192,14 +192,14 @@ const ProjectDetails = () => {
             "url": "${projectUrl}",
             "author": {
               "@type": "Person",
-              "name": "Eki Zulfar Rachman",
-              "url": "https://ekizr.com"
+              "name": "Luis Esteban Castillo Pedroza",
+              "url": "https://lxiscxstillo.vercel.app"
             }
           }
         `}</script>
       </Helmet>
 
-      <div className="min-h-screen bg-[#030014] px-[2%] sm:px-0 relative overflow-hidden">
+      <div className="min-h-screen bg-[#0A0A0A] px-[2%] sm:px-0 relative overflow-hidden">
         <div className="fixed inset-0">
           <div className="absolute -inset-[10px] opacity-20">
             <div className="absolute top-0 -left-4 w-72 md:w-96 h-72 md:h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
@@ -294,7 +294,7 @@ const ProjectDetails = () => {
 
               <div className="space-y-6 md:space-y-10 animate-slideInRight">
                 <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <img
                     src={project.Img}
                     alt={project.Title}

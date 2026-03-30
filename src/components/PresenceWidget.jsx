@@ -72,10 +72,10 @@ export default function PresenceWidget() {
   const getColors = (type) => {
     const colors = {
       spotify: {
-        bg: "from-green-500/15 to-emerald-500/10",
-        border: "border-green-500/30",
-        text: "text-green-400",
-        badge: "bg-green-500/20 border-green-400/40",
+        bg: "from-white/15 to-gray-400/10",
+        border: "border-white/30",
+        text: "text-white",
+        badge: "bg-white/20 border-white/40",
         glow: "shadow-green-500/20"
       },
       coding: {
@@ -153,7 +153,7 @@ export default function PresenceWidget() {
                     
                     {/* Music bars - hanya Spotify */}
                     {act.type === "spotify" && (
-                      <div className="absolute -bottom-0.5 -right-0.5 bg-green-500 rounded p-0.5 shadow-lg">
+                      <div className="absolute -bottom-0.5 -right-0.5 bg-white rounded p-0.5 shadow-lg">
                         <div className="flex items-end gap-0.5 h-2">
                           <div className="w-0.5 bg-white rounded-full animate-music-1"></div>
                           <div className="w-0.5 bg-white rounded-full animate-music-2"></div>

@@ -262,14 +262,13 @@ const AboutPage = () => {
             </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
-              <a href="#" className="w-full lg:w-auto">
+              <a href="/luis_castillo_cv.pdf" target="_blank" rel="noopener noreferrer" className="w-full lg:w-auto">
                 <button
                   data-aos="fade-up"
                   data-aos-duration="800"
-                  className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-white text-black font-medium transition-all duration-300 flex items-center justify-center lg:justify-start gap-2 shadow-lg opacity-40 cursor-not-allowed"
-                  title="CV coming soon"
+                  className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-white text-black font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg"
                 >
-                  <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> CV Coming Soon
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> View CV
                 </button>
               </a>
               <a href="#Portofolio" className="w-full lg:w-auto">

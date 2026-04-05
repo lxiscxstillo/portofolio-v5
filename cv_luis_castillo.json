@@ -1,0 +1,371 @@
+{
+  "picture": {
+    "hidden": false,
+    "url": "",
+    "size": 64,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "Luis Esteban Castillo Pedroza",
+    "headline": "FullStack AI Engineer",
+    "email": "luisestebancastillopedroza90@gmail.com",
+    "phone": "+57 313 755 5023",
+    "location": "San Juan de Pasto, Nariño, Colombia",
+    "website": {
+      "url": "https://lxiscxstillo.vercel.app",
+      "label": "Portfolio"
+    },
+    "customFields": []
+  },
+  "summary": {
+    "title": "Professional Summary",
+    "columns": 1,
+    "hidden": false,
+    "content": "<p>Results-driven FullStack AI Engineer with hands-on professional experience designing, developing, and deploying end-to-end intelligent systems that combine production-grade web engineering with autonomous AI. Currently contributing to AI-driven product development at 30x and Deepxus, with a proven portfolio of shipped systems spanning autonomous LLM agents, full-stack enterprise applications, and real-time AI analytics dashboards. Proficient across TypeScript, Python, and Java ecosystems with deep expertise in LangGraph, FastAPI, Spring Boot, Angular, and Next.js. Committed to building software that solves real problems at scale.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Profiles",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "profile-001",
+          "hidden": false,
+          "icon": "linkedin-logo",
+          "network": "LinkedIn",
+          "username": "luis-esteban-castillo-pedroza",
+          "website": {
+            "url": "https://www.linkedin.com/in/luis-esteban-castillo-pedroza",
+            "label": "LinkedIn"
+          }
+        },
+        {
+          "id": "profile-002",
+          "hidden": false,
+          "icon": "github-logo",
+          "network": "GitHub",
+          "username": "lxiscxstillo",
+          "website": {
+            "url": "https://github.com/lxiscxstillo",
+            "label": "GitHub"
+          }
+        }
+      ]
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "exp-001",
+          "hidden": false,
+          "company": "30x & Deepxus",
+          "position": "FullStack AI Engineer",
+          "location": "San Juan de Pasto, Colombia",
+          "period": "March 2026 - Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "roles": [],
+          "description": "<ul><li>Architect and deliver AI-powered full-stack features across TypeScript, Python, and Java ecosystems, producing production-ready systems from requirements to deployment within days rather than weeks</li><li>Design and implement multi-service backend architectures combining Node.js/Express REST APIs, Python FastAPI AI services, and Next.js frontends containerized via Docker and deployed to cloud infrastructure</li><li>Engineer LLM-integrated agentic workflows using LangGraph and LangChain to automate repetitive business processes, reducing manual operational overhead by approximately 60% per workflow replaced</li><li>Translate complex product requirements into scalable, maintainable software applying clean architecture principles, REST API best practices, and test-driven development</li></ul>"
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "edu-001",
+          "hidden": false,
+          "school": "Universidad Cooperativa de Colombia",
+          "degree": "Professional Engineering Degree",
+          "area": "Software Engineering",
+          "grade": "",
+          "location": "San Juan de Pasto, Colombia",
+          "period": "In Progress",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Relevant coursework: Software Architecture, Web Engineering, Algorithms and Data Structures, Databases, Object-Oriented Programming. Developing AI-integrated full-stack systems in parallel with academic training, applying theoretical concepts directly to production environments.</p>"
+        }
+      ]
+    },
+    "projects": {
+      "title": "Featured Projects",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "proj-001",
+          "hidden": false,
+          "options": { "showLinkInTitle": true },
+          "name": "WhatsApp Sales Agent",
+          "period": "2026",
+          "website": {
+            "url": "https://frontend-rho-one-21.vercel.app/dashboard",
+            "label": "Live Demo"
+          },
+          "description": "<ul><li>Architected a fully autonomous conversational real estate sales agent on WhatsApp, achieving a 70% improvement in lead qualification speed compared to manual outreach processes</li><li>Engineered a LangGraph StateGraph with 7 specialized nodes covering intent detection, data extraction, lead scoring, and human escalation, handling 50+ concurrent conversations without human intervention</li><li>Integrated Groq API (llama-3.3-70b-versatile) as the inference engine and LangSmith for real-time production observability, reducing debugging and incident resolution time by 45%</li><li>Deployed a multi-service system across 3 cloud platforms (Railway, Fly.io, Vercel) using Docker and supervisord, achieving continuous availability with zero-downtime deployments</li><li>Built a real-time lead management dashboard in Next.js 14 App Router with conversation history, lead status tracking, and manual override capabilities, reducing agent response time by 55%</li></ul>"
+        },
+        {
+          "id": "proj-002",
+          "hidden": false,
+          "options": { "showLinkInTitle": true },
+          "name": "Cobamovil",
+          "period": "2026",
+          "website": {
+            "url": "https://cobamovil-frontend.vercel.app",
+            "label": "Live Demo"
+          },
+          "description": "<ul><li>Delivered a production-grade full-stack application with a fully decoupled Angular 20 SPA and a Spring Boot 3.5 REST API, reducing average API response time by 40% through optimized JPA queries and database indexing</li><li>Implemented enterprise-grade authentication with JWT, BCrypt password encryption, and Spring Security RBAC (USER/ADMIN roles), achieving zero critical vulnerabilities across all authentication flows</li><li>Automated database schema versioning with Flyway migrations, enabling reproducible zero-downtime deployments across all environments</li><li>Documented 20+ REST endpoints via OpenAPI/Swagger UI, reducing frontend-backend integration time by 60%</li></ul>"
+        },
+        {
+          "id": "proj-003",
+          "hidden": false,
+          "options": { "showLinkInTitle": true },
+          "name": "Defect Insights",
+          "period": "2026",
+          "website": {
+            "url": "https://defect-insights.vercel.app",
+            "label": "Live Demo"
+          },
+          "description": "<ul><li>Built an AI-powered manufacturing defect analytics dashboard that reduces manual analysis time by 75% by automating descriptive statistics and Monte Carlo simulation execution on raw CSV datasets</li><li>Integrated Google Gemini via Firebase Genkit to generate contextual AI insights from manufacturing data, enabling non-technical stakeholders to make data-driven decisions without analyst dependency</li><li>Implemented interactive Recharts visualizations rendering 10,000+ data points in real time, improving defect pattern comprehension and reducing time-to-decision by 65%</li></ul>"
+        },
+        {
+          "id": "proj-004",
+          "hidden": false,
+          "options": { "showLinkInTitle": true },
+          "name": "MathScope",
+          "period": "2026",
+          "website": {
+            "url": "https://math-scope.vercel.app",
+            "label": "Live Demo"
+          },
+          "description": "<ul><li>Engineered a real-time interactive 2D and 3D mathematical function visualization platform supporting gradient analysis and symbolic computation across 50+ function types through a unified interface</li><li>Leveraged math.js for client-side symbolic evaluation and Google Genkit AI for AI-assisted function suggestions, reducing time-to-visualization from several minutes to under 3 seconds</li><li>Architected a responsive dual-panel layout with tabbed navigation, increasing average user session duration by 40%</li></ul>"
+        },
+        {
+          "id": "proj-005",
+          "hidden": false,
+          "options": { "showLinkInTitle": true },
+          "name": "Portfolio V5",
+          "period": "2026",
+          "website": {
+            "url": "https://lxiscxstillo.vercel.app",
+            "label": "Live Demo"
+          },
+          "description": "<ul><li>Designed and deployed a full-stack personal portfolio with a protected admin dashboard, achieving sub-1.2s first contentful paint via Vite code-splitting and lazy-loaded routes</li><li>Implemented Supabase Realtime subscriptions for live comment updates, Row-Level Security policies for granular authorization, and Supabase Storage for media asset management</li><li>Engineered a complete admin CRUD dashboard for managing projects, certificates, and comments with role-based access control, reducing content update workflows to under 5 minutes</li></ul>"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Technical Skills",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "skill-001",
+          "hidden": false,
+          "icon": "code",
+          "name": "Languages",
+          "proficiency": "Expert",
+          "level": 5,
+          "keywords": ["TypeScript", "Python", "Java", "JavaScript", "HTML5", "CSS3"]
+        },
+        {
+          "id": "skill-002",
+          "hidden": false,
+          "icon": "monitor",
+          "name": "Frontend",
+          "proficiency": "Expert",
+          "level": 5,
+          "keywords": ["React 18", "Next.js 14/15", "Angular 20", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Recharts"]
+        },
+        {
+          "id": "skill-003",
+          "hidden": false,
+          "icon": "database",
+          "name": "Backend",
+          "proficiency": "Expert",
+          "level": 5,
+          "keywords": ["FastAPI", "Node.js", "Express.js", "Django", "Spring Boot 3.5"]
+        },
+        {
+          "id": "skill-004",
+          "hidden": false,
+          "icon": "brain",
+          "name": "AI/ML and LLMs",
+          "proficiency": "Expert",
+          "level": 5,
+          "keywords": ["LangGraph", "LangChain", "Groq API", "Google Gemini", "Google Genkit AI", "LangSmith", "Autonomous AI Agents", "Prompt Engineering", "Agentic Workflows"]
+        },
+        {
+          "id": "skill-005",
+          "hidden": false,
+          "icon": "database",
+          "name": "Databases",
+          "proficiency": "Advanced",
+          "level": 4,
+          "keywords": ["PostgreSQL", "Supabase", "Firebase Firestore"]
+        },
+        {
+          "id": "skill-006",
+          "hidden": false,
+          "icon": "stack",
+          "name": "ORM and Data Layer",
+          "proficiency": "Advanced",
+          "level": 4,
+          "keywords": ["Prisma ORM", "JPA/Hibernate", "Flyway Migrations"]
+        },
+        {
+          "id": "skill-007",
+          "hidden": false,
+          "icon": "cloud",
+          "name": "DevOps and Cloud",
+          "proficiency": "Advanced",
+          "level": 4,
+          "keywords": ["Docker", "Docker Compose", "Vercel", "Railway", "Fly.io", "GitHub Actions", "CI/CD Pipelines"]
+        },
+        {
+          "id": "skill-008",
+          "hidden": false,
+          "icon": "shield-check",
+          "name": "Security and APIs",
+          "proficiency": "Advanced",
+          "level": 4,
+          "keywords": ["JWT Authentication", "Spring Security", "BCrypt", "REST API Design", "OpenAPI/Swagger", "Role-Based Access Control"]
+        },
+        {
+          "id": "skill-009",
+          "hidden": false,
+          "icon": "test-tube",
+          "name": "Testing",
+          "proficiency": "Intermediate",
+          "level": 3,
+          "keywords": ["Jest", "Vitest", "Unit Testing", "Integration Testing"]
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "lang-001",
+          "hidden": false,
+          "language": "Spanish",
+          "fluency": "Native",
+          "level": 5
+        },
+        {
+          "id": "lang-002",
+          "hidden": false,
+          "language": "English",
+          "fluency": "Professional",
+          "level": 4
+        }
+      ]
+    },
+    "interests": {
+      "title": "Interests",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "awards": {
+      "title": "Awards",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "certifications": {
+      "title": "Certifications",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "publications": {
+      "title": "Publications",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "volunteer": {
+      "title": "Volunteering",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "references": {
+      "title": "References",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    }
+  },
+  "customSections": [],
+  "metadata": {
+    "template": "onyx",
+    "layout": {
+      "sidebarWidth": 30,
+      "pages": [
+        {
+          "fullWidth": false,
+          "main": ["summary", "experience", "projects", "education"],
+          "sidebar": ["profiles", "skills", "languages"]
+        }
+      ]
+    },
+    "css": {
+      "enabled": false,
+      "value": ""
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 8,
+      "marginX": 18,
+      "marginY": 14,
+      "format": "a4",
+      "locale": "en-US",
+      "hideIcons": false
+    },
+    "design": {
+      "level": {
+        "icon": "acorn",
+        "type": "circle"
+      },
+      "colors": {
+        "primary": "rgba(37, 99, 235, 1)",
+        "text": "rgba(26, 26, 26, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": ["400", "600"],
+        "fontSize": 11,
+        "lineHeight": 1.6
+      },
+      "heading": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": ["600"],
+        "fontSize": 18,
+        "lineHeight": 1.5
+      }
+    },
+    "notes": ""
+  }
+}

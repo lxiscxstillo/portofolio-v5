@@ -102,20 +102,27 @@ function a11yProps(index) {
   };
 }
 
-// techStacks tetap sama
+const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons";
 const techStacks = [
-  { icon: "html.svg", language: "HTML" },
-  { icon: "css.svg", language: "CSS" },
-  { icon: "javascript.svg", language: "JavaScript" },
-  { icon: "tailwind.svg", language: "Tailwind CSS" },
-  { icon: "reactjs.svg", language: "ReactJS" },
-  { icon: "vite.svg", language: "Vite" },
-  { icon: "nodejs.svg", language: "Node JS" },
-  { icon: "bootstrap.svg", language: "Bootstrap" },
-  { icon: "firebase.svg", language: "Firebase" },
-  { icon: "MUI.svg", language: "Material UI" },
-  { icon: "vercel.svg", language: "Vercel" },
-  { icon: "SweetAlert.svg", language: "SweetAlert2" },
+  { icon: `${CDN}/typescript/typescript-original.svg`, language: "TypeScript", description: "Primary language. Type-safe frontends with React/Next.js, Angular SPAs, and Node.js backends." },
+  { icon: `${CDN}/python/python-original.svg`, language: "Python", description: "AI agents with LangGraph & LangChain, REST APIs with FastAPI, and automation scripts." },
+  { icon: `${CDN}/java/java-original.svg`, language: "Java", description: "Spring Boot backend for Cobamovil with JWT auth, JPA/Hibernate, and REST APIs." },
+  { icon: `${CDN}/javascript/javascript-original.svg`, language: "JavaScript", description: "Runtime for Node.js services, browser scripting, and earlier full-stack projects." },
+  { icon: `${CDN}/html5/html5-original.svg`, language: "HTML", description: "Semantic markup across all web projects with accessibility and SEO structure." },
+  { icon: `${CDN}/css3/css3-original.svg`, language: "CSS", description: "Custom animations, keyframes, blob effects, and responsive layouts." },
+  { icon: `${CDN}/react/react-original.svg`, language: "React", description: "Core library for this portfolio and multiple SPAs using hooks and Framer Motion." },
+  { icon: `${CDN}/nextjs/nextjs-original.svg`, language: "Next.js", description: "Full-stack apps with App Router — WhatsApp AI agent dashboard and AI tools." },
+  { icon: `${CDN}/angular/angular-original.svg`, language: "Angular", description: "Full Cobamovil frontend SPA with reactive forms, services, and Angular CLI." },
+  { icon: `${CDN}/nodejs/nodejs-original.svg`, language: "Node.js", description: "WhatsApp sales agent backend — webhooks, REST API, and Prisma ORM." },
+  { icon: `${CDN}/fastapi/fastapi-original.svg`, language: "FastAPI", description: "LangGraph agent service with async endpoints, Pydantic models, and PostgreSQL checkpointer." },
+  { icon: `${CDN}/django/django-plain.svg`, language: "Django", description: "MVT architecture, ORM models, forms, and Django admin panels." },
+  { icon: `${CDN}/spring/spring-original.svg`, language: "Spring Boot", description: "Cobamovil backend with Spring Security, Flyway migrations, and OpenAPI docs." },
+  { icon: `${CDN}/postgresql/postgresql-original.svg`, language: "PostgreSQL", description: "Production DB for Cobamovil and the WhatsApp agent with Prisma and JPA." },
+  { icon: `${CDN}/firebase/firebase-original.svg`, language: "Firebase", description: "Real-time database and hosting for Defect Insights and MathScope." },
+  { icon: `${CDN}/supabase/supabase-original.svg`, language: "Supabase", description: "Auth, storage buckets, and real-time DB powering this portfolio." },
+  { icon: `${CDN}/docker/docker-original.svg`, language: "Docker", description: "Containerized multi-service apps (Node + Python + PostgreSQL) deployed to Railway." },
+  { icon: `${CDN}/tailwindcss/tailwindcss-original.svg`, language: "Tailwind CSS", description: "Utility-first styling for all React/Next.js dark-themed UIs." },
+  { icon: "vercel.svg", language: "Vercel", description: "Primary deployment platform for frontends, SPAs, and Next.js apps." },
 ];
 
 export default function FullWidthTabs() {
@@ -316,10 +323,10 @@ export default function FullWidthTabs() {
                     data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
                   >
                     <CardProject
-                      Img={project.Img}
-                      Title={project.Title}
-                      Description={project.Description}
-                      Link={project.Link}
+                      Img={project.img}
+                      Title={project.title}
+                      Description={project.description}
+                      Link={project.link}
                       id={project.id}
                     />
                   </div>
@@ -361,15 +368,15 @@ export default function FullWidthTabs() {
           </TabPanel>
 
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8 gap-5">
+            <div className="w-full pb-[5%]">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 lg:gap-5">
                 {techStacks.map((stack, index) => (
                   <div
                     key={index}
                     data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
                     data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
                   >
-                    <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} />
+                    <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} description={stack.description} />
                   </div>
                 ))}
               </div>

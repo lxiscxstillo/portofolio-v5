@@ -76,7 +76,7 @@ const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
 const WORDS = ["AI Systems Builder", "LLM & AI Systems Engineer", "Designing Intelligent Experiences", "Building AI-Powered Products"];
-const TECH_STACK = ["React", "Python", "Node.js", "TypeScript", "MongoDB", "Docker"];
+const TECH_STACK = ["Next.js", "React", "TypeScript", "Python", "LangGraph", "FastAPI", "Angular", "PostgreSQL", "Docker", "Java"];
 const SOCIAL_LINKS = [
   { icon: Github, link: "https://github.com/lxiscxstillo", label: "GitHub Profile" },
   { icon: Linkedin, link: "https://www.linkedin.com/in/luis-esteban-castillo-pedroza", label: "LinkedIn Profile" },

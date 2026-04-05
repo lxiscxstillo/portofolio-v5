@@ -8,8 +8,11 @@
 	box-sizing: border-box;
 	  font-family: "Poppins", system-ui, sans-serif;
 	scroll-behavior: smooth;
-	scrollbar-width: thin;
-	scrollbar-color: rgba(34, 197, 94, 0.3) rgba(10, 10, 10, 0.8);
+	scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+	display: none;
 }
 
 html,

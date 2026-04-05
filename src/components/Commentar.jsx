@@ -76,19 +76,21 @@ const CommentForm = memo(({ onSubmit, isSubmitting }) => {
     const [userCompany, setUserCompany] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [imageError, setImageError] = useState('');
     const textareaRef = useRef(null);
     const fileInputRef = useRef(null);
 
     const handleImageChange = useCallback((e) => {
         const file = e.target.files[0];
         if (!file) return;
+        setImageError('');
         if (file.size > 5 * 1024 * 1024) {
-            alert('File size must be less than 5MB.');
+            setImageError('The photo is too large. Please choose one under 5 MB.');
             if (e.target) e.target.value = '';
             return;
         }
         if (!file.type.startsWith('image/')) {
-            alert('Please select a valid image file.');
+            setImageError('That file type is not supported. Please upload a JPG, PNG or WEBP image.');
             if (e.target) e.target.value = '';
             return;
         }
@@ -108,7 +110,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting }) => {
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
-        if (!newComment.trim() || !userName.trim()) return;
+        if (!newComment.trim() || !userName.trim() || !userRole.trim() || !userCompany.trim()) return;
         onSubmit({ newComment, userName, userRole, userCompany, imageFile });
         setNewComment('');
         setUserName('');
@@ -144,7 +146,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting }) => {
             <div className="grid grid-cols-2 gap-3" data-aos="fade-up" data-aos-duration="900">
                 <div className="space-y-1">
                     <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Role <span className="text-gray-600">(optional)</span>
+                        Role <span className="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -152,12 +154,13 @@ const CommentForm = memo(({ onSubmit, isSubmitting }) => {
                         onChange={(e) => setUserRole(e.target.value)}
                         maxLength={40}
                         placeholder="e.g. CTO"
+                        required
                         className={inputClass}
                     />
                 </div>
                 <div className="space-y-1">
                     <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        Company <span className="text-gray-600">(optional)</span>
+                        Company <span className="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -165,6 +168,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting }) => {
                         onChange={(e) => setUserCompany(e.target.value)}
                         maxLength={40}
                         placeholder="e.g. TechCorp"
+                        required
                         className={inputClass}
                     />
                 </div>
@@ -191,6 +195,12 @@ const CommentForm = memo(({ onSubmit, isSubmitting }) => {
                 <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider">
                     Profile Photo <span className="text-gray-600">(optional)</span>
                 </label>
+                {imageError && (
+                    <div className="flex items-center gap-2 px-3 py-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg">
+                        <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                        <p className="text-xs">{imageError}</p>
+                    </div>
+                )}
                 <div className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-xl">
                     {imagePreview ? (
                         <div className="flex items-center gap-3">
@@ -318,7 +328,11 @@ const Komentar = () => {
                 .select('*')
                 .eq('is_pinned', false)
                 .order('created_at', { ascending: false });
-            if (!error) setComments(data || []);
+            if (error) {
+                setError("Couldn't load comments right now. Please refresh the page.");
+            } else {
+                setComments(data || []);
+            }
         };
 
         fetchComments();
@@ -344,7 +358,7 @@ const Komentar = () => {
         const { error: uploadError } = await supabase.storage
             .from('profile-images')
             .upload(filePath, imageFile);
-        if (uploadError) throw uploadError;
+        if (uploadError) throw new Error('photo_upload');
         const { data } = supabase.storage.from('profile-images').getPublicUrl(filePath);
         return data.publicUrl;
     }, []);
@@ -366,10 +380,16 @@ const Komentar = () => {
                     device_id: deviceId.current,
                     created_at: new Date().toISOString()
                 }]);
-            if (error) throw error;
+            if (error) throw new Error('insert');
             setHasCommented(true);
         } catch (err) {
-            setError('Failed to post comment. Please try again.');
+            if (err.message === 'photo_upload') {
+                setError("We couldn't upload your photo. Try submitting without one, or use a smaller image.");
+            } else if (!navigator.onLine) {
+                setError("You appear to be offline. Please check your connection and try again.");
+            } else {
+                setError("Something went wrong posting your comment. Please try again in a moment.");
+            }
             console.error('Error adding comment:', err);
         } finally {
             setIsSubmitting(false);

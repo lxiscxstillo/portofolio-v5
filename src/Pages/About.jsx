@@ -3,30 +3,33 @@ import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles, UserCheck } from 
 import { supabase } from "../supabase"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { useLanguage } from "../context/LanguageContext"
 
-// Memoized Components
-const Header = memo(() => (
-  <div className="text-center lg:mb-8 mb-2 px-[5%]">
-    <div className="inline-block relative group">
-      <h2
-        className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] to-[#e5e7eb]"
+const Header = memo(() => {
+  const { t } = useLanguage();
+  return (
+    <div className="text-center lg:mb-8 mb-2 px-[5%]">
+      <div className="inline-block relative group">
+        <h2
+          className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] to-[#e5e7eb]"
+          data-aos="zoom-in-up"
+          data-aos-duration="600"
+        >
+          {t('about.title')}
+        </h2>
+      </div>
+      <p
+        className="mt-2 text-gray-400 max-w-2xl mx-auto text-base sm:text-lg flex items-center justify-center gap-2"
         data-aos="zoom-in-up"
-        data-aos-duration="600"
+        data-aos-duration="800"
       >
-        About Me
-      </h2>
+        <Sparkles className="w-5 h-5 text-[#ffffff]" />
+        {t('about.subtitle')}
+        <Sparkles className="w-5 h-5 text-[#ffffff]" />
+      </p>
     </div>
-    <p
-      className="mt-2 text-gray-400 max-w-2xl mx-auto text-base sm:text-lg flex items-center justify-center gap-2"
-      data-aos="zoom-in-up"
-      data-aos-duration="800"
-    >
-      <Sparkles className="w-5 h-5 text-[#ffffff]" />
-      Building intelligent systems that make a real difference
-      <Sparkles className="w-5 h-5 text-[#ffffff]" />
-    </p>
-  </div>
-));
+  );
+});
 
 const PHOTOS = [
   "/Photo.jpeg",  "/Photo2.jpeg",  "/Photo3.jpeg",  "/Photo4.jpeg",
@@ -130,6 +133,7 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
 const AboutPage = () => {
   const [totalProjects, setTotalProjects] = useState(0);
   const [totalCertificates, setTotalCertificates] = useState(0);
+  const { t } = useLanguage();
 
   const YearExperience = useMemo(() => {
     const startDate = new Date("2024-01-01");
@@ -151,20 +155,13 @@ const AboutPage = () => {
   }, []);
 
   useEffect(() => {
-    const initAOS = () => {
-      AOS.init({
-        once: false,
-      });
-    };
-
+    const initAOS = () => { AOS.init({ once: false }); };
     initAOS();
-
     let resizeTimer;
     const handleResize = () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(initAOS, 250);
     };
-
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -177,27 +174,27 @@ const AboutPage = () => {
       icon: Code,
       color: "from-[#ffffff] to-[#e5e7eb]",
       value: totalProjects,
-      label: "Total Projects",
-      description: "Intelligent systems built end-to-end",
+      label: t('about.stat_projects'),
+      description: t('about.stat_projects_desc'),
       animation: "fade-right",
     },
     {
       icon: Award,
       color: "from-[#e5e7eb] to-[#ffffff]",
       value: totalCertificates,
-      label: "Certificates",
-      description: "Professional skills validated",
+      label: t('about.stat_certs'),
+      description: t('about.stat_certs_desc'),
       animation: "fade-up",
     },
     {
       icon: Globe,
       color: "from-[#ffffff] to-[#e5e7eb]",
       value: YearExperience,
-      label: "Years of Experience",
-      description: "Continuous learning journey",
+      label: t('about.stat_exp'),
+      description: t('about.stat_exp_desc'),
       animation: "fade-left",
     },
-  ], [totalProjects, totalCertificates, YearExperience]);
+  ], [totalProjects, totalCertificates, YearExperience, t]);
 
   return (
     <div
@@ -217,7 +214,7 @@ const AboutPage = () => {
               data-aos-duration="1000"
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] to-[#e5e7eb]">
-                Hello, I'm
+                {t('about.greeting')}
               </span>
               <span
                 className="block mt-2 text-gray-200"
@@ -234,14 +231,14 @@ const AboutPage = () => {
               data-aos="fade-right"
               data-aos-duration="1500"
             >
-              I'm a Full-Stack AI Engineer focused on building intelligent systems that go beyond prototypes and deliver real-world impact. I combine software engineering with artificial intelligence to design, develop, and deploy scalable products powered by data and LLMs.
+              {t('about.bio_1')}
               <br /><br />
-              My work is centered on turning complex ideas into functional solutions — from backend architecture and APIs to intuitive user experiences. I'm especially interested in creating AI-driven applications that solve meaningful problems and push the boundaries of what technology can do.
+              {t('about.bio_2')}
               <br /><br />
-              I don't just write code — I build systems that think, learn, and evolve.
+              {t('about.bio_3')}
             </p>
 
-            {/* Quote Section */}
+            {/* Quote */}
             <div
               className="relative bg-gradient-to-br from-[#ffffff]/5 via-transparent to-[#e5e7eb]/5 border border-[#ffffff]/30 rounded-2xl p-4 my-6 backdrop-blur-md shadow-2xl overflow-hidden"
               data-aos="fade-up"
@@ -249,15 +246,13 @@ const AboutPage = () => {
             >
               <div className="absolute top-2 right-4 w-16 h-16 bg-gradient-to-r from-[#ffffff]/20 to-[#e5e7eb]/20 rounded-full blur-xl"></div>
               <div className="absolute -bottom-4 -left-2 w-12 h-12 bg-gradient-to-r from-[#e5e7eb]/20 to-[#ffffff]/20 rounded-full blur-lg"></div>
-
               <div className="absolute top-3 left-4 text-[#ffffff] opacity-30">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
                 </svg>
               </div>
-
               <blockquote className="text-gray-300 text-center lg:text-left italic font-medium text-sm relative z-10 pl-6">
-                "Build software that solves real problems."
+                "{t('about.quote')}"
               </blockquote>
             </div>
 
@@ -268,7 +263,7 @@ const AboutPage = () => {
                   data-aos-duration="800"
                   className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-white text-black font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg"
                 >
-                  <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> View CV
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> {t('about.btn_cv')}
                 </button>
               </a>
               <a href="#Portofolio" className="w-full lg:w-auto">
@@ -277,7 +272,7 @@ const AboutPage = () => {
                   data-aos-duration="1000"
                   className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg border border-[#ffffff]/50 text-[#ffffff] font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 hover:bg-[#ffffff]/10"
                 >
-                  <Code className="w-4 h-4 sm:w-5 sm:h-5" /> View Projects
+                  <Code className="w-4 h-4 sm:w-5 sm:h-5" /> {t('about.btn_projects')}
                 </button>
               </a>
             </div>
@@ -303,15 +298,9 @@ const AboutPage = () => {
         @keyframes spin-slower {
           to { transform: rotate(360deg); }
         }
-        .animate-bounce-slow {
-          animation: bounce 3s infinite;
-        }
-        .animate-pulse-slow {
-          animation: pulse 3s infinite;
-        }
-        .animate-spin-slower {
-          animation: spin-slower 8s linear infinite;
-        }
+        .animate-bounce-slow { animation: bounce 3s infinite; }
+        .animate-pulse-slow  { animation: pulse 3s infinite; }
+        .animate-spin-slower { animation: spin-slower 8s linear infinite; }
       `}</style>
     </div>
   );

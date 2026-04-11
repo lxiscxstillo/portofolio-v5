@@ -195,152 +195,214 @@ body {
 }
 
 /* ============================================================
-   THEME: CSS Custom Properties
+   LIGHT THEME — Full Design System
    ============================================================ */
-:root,
-[data-theme="dark"] {
-  --page-bg: #0A0A0A;
-  --page-bg-secondary: #111111;
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-bg-hover: rgba(255, 255, 255, 0.08);
-  --text-primary: #ffffff;
-  --text-secondary: #d1d5db;
-  --text-muted: #6b7280;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-color-strong: rgba(255, 255, 255, 0.2);
-  --nav-bg: rgba(10, 10, 10, 0.8);
-  --input-bg: rgba(255, 255, 255, 0.05);
-  --scrollbar-track: rgba(10, 10, 10, 0.8);
-  --scrollbar-thumb: rgba(34, 197, 94, 0.3);
+
+/* ── Transition on switch ── */
+html {
+  transition: background 0.35s ease;
+}
+body {
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
-[data-theme="light"] {
-  --page-bg: #f8fafc;
-  --page-bg-secondary: #f1f5f9;
-  --card-bg: rgba(0, 0, 0, 0.04);
-  --card-bg-hover: rgba(0, 0, 0, 0.07);
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --border-color: rgba(0, 0, 0, 0.1);
-  --border-color-strong: rgba(0, 0, 0, 0.18);
-  --nav-bg: rgba(248, 250, 252, 0.85);
-  --input-bg: rgba(0, 0, 0, 0.04);
-  --scrollbar-track: rgba(241, 245, 249, 0.8);
-  --scrollbar-thumb: rgba(34, 197, 94, 0.4);
-}
-
-/* ============================================================
-   LIGHT THEME: Global overrides
-   ============================================================ */
-[data-theme="light"] html,
-[data-theme="light"] body,
+/* ── Base: light page background (warm slate gradient) ── */
 html[data-theme="light"],
 html[data-theme="light"] body {
-  background-color: var(--page-bg);
-  color: var(--text-primary);
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
 }
 
-[data-theme="light"] #Home,
-[data-theme="light"] #About,
-[data-theme="light"] #Portofolio,
-[data-theme="light"] #Contact {
-  background-color: var(--page-bg);
+/* ── Section backgrounds with hardcoded dark value ── */
+html[data-theme="light"] [class*="bg-[#0A0A0A]"],
+html[data-theme="light"] [class*="bg-[#030014]"],
+html[data-theme="light"] .min-h-screen,
+html[data-theme="light"] #Home,
+html[data-theme="light"] #About {
+  background-color: transparent !important;
 }
 
-/* Sections with hardcoded dark bg */
-html[data-theme="light"] .min-h-screen {
-  background-color: var(--page-bg);
+/* ── Animated grid background — very faint ── */
+html[data-theme="light"] .pointer-events-none {
+  opacity: 0.08 !important;
 }
 
-html[data-theme="light"] {
-  background-color: var(--page-bg);
+/* ── Decorative blobs/glows — hide them ── */
+html[data-theme="light"] .blur-2xl,
+html[data-theme="light"] .blur-3xl {
+  opacity: 0 !important;
 }
 
-html[data-theme="light"] body {
-  background-color: var(--page-bg);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* ╔══════════════════════════════════════
+   TYPOGRAPHY
+   ══════════════════════════════════════╝ */
+html[data-theme="light"] .text-white        { color: #0f172a !important; }
+html[data-theme="light"] .text-gray-100     { color: #1e293b !important; }
+html[data-theme="light"] .text-gray-200     { color: #334155 !important; }
+html[data-theme="light"] .text-gray-300     { color: #475569 !important; }
+html[data-theme="light"] .text-gray-400     { color: #64748b !important; }
+html[data-theme="light"] .text-gray-500     { color: #94a3b8 !important; }
+html[data-theme="light"] .text-slate-400    { color: #64748b !important; }
+
+/* ── White icon tint ── */
+html[data-theme="light"] [class*="text-[#ffffff]"] { color: #334155 !important; }
+
+/* ── GRADIENT TEXT FIX (the main culprit) ──
+   White-on-white = invisible. Replace with crisp dark gradient. */
+html[data-theme="light"] .text-transparent {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  background-image: none !important;
+}
+/* Re-allow background-clip for explicitly decorative spans (blobs etc.) */
+html[data-theme="light"] .pointer-events-none .text-transparent {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
-/* Override dark section backgrounds */
-html[data-theme="light"] [class*="bg-\[#0A0A0A\]"],
-html[data-theme="light"] [class*="bg-\[#030014\]"] {
-  background-color: var(--page-bg) !important;
+/* ── Typing effect cursor ── */
+html[data-theme="light"] .animate-blink,
+html[data-theme="light"] [class*="bg-gradient-to-t"] {
+  background-image: linear-gradient(to top, #334155, #0f172a) !important;
 }
 
-/* Text overrides */
-html[data-theme="light"] .text-white {
-  color: var(--text-primary) !important;
-}
-html[data-theme="light"] .text-gray-300 {
-  color: var(--text-secondary) !important;
-}
-html[data-theme="light"] .text-gray-400 {
-  color: var(--text-muted) !important;
-}
-html[data-theme="light"] .text-gray-500 {
-  color: #94a3b8 !important;
+/* ╔══════════════════════════════════════
+   NAVBAR
+   ══════════════════════════════════════╝ */
+html[data-theme="light"] nav {
+  background: rgba(241, 245, 249, 0.88) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 1px 12px rgba(15, 23, 42, 0.06) !important;
 }
 
-/* Card backgrounds */
-html[data-theme="light"] .bg-white\/5 {
-  background-color: rgba(0, 0, 0, 0.04) !important;
-}
-html[data-theme="light"] .bg-white\/8,
-html[data-theme="light"] .bg-white\/\[0\.08\] {
-  background-color: rgba(0, 0, 0, 0.06) !important;
+/* ╔══════════════════════════════════════
+   CARDS & PANELS
+   ══════════════════════════════════════╝ */
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/8 {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06),
+              0 1px 3px  rgba(15, 23, 42, 0.04) !important;
 }
 html[data-theme="light"] .bg-white\/10 {
-  background-color: rgba(0, 0, 0, 0.07) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08),
+              0 1px 4px  rgba(15, 23, 42, 0.05) !important;
 }
-html[data-theme="light"] .bg-white\/20 {
-  background-color: rgba(0, 0, 0, 0.12) !important;
+html[data-theme="light"] .bg-white\/20,
+html[data-theme="light"] .bg-white\/15 {
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.10) !important;
 }
 html[data-theme="light"] .bg-black\/40,
 html[data-theme="light"] .bg-black\/50 {
-  background-color: rgba(255, 255, 255, 0.85) !important;
+  background: rgba(255, 255, 255, 0.90) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
 }
-
-/* Borders */
-html[data-theme="light"] .border-white\/5  { border-color: rgba(0,0,0,0.05)  !important; }
-html[data-theme="light"] .border-white\/10 { border-color: rgba(0,0,0,0.10)  !important; }
-html[data-theme="light"] .border-white\/15 { border-color: rgba(0,0,0,0.12)  !important; }
-html[data-theme="light"] .border-white\/20 { border-color: rgba(0,0,0,0.15)  !important; }
-html[data-theme="light"] .border-white\/30 { border-color: rgba(0,0,0,0.20)  !important; }
-
-/* Gray section bg */
 html[data-theme="light"] .bg-gray-900\/50 {
-  background-color: rgba(255, 255, 255, 0.7) !important;
+  background: rgba(255, 255, 255, 0.80) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
 }
 
-/* Form inputs */
+/* Stat cards & About section card grid */
+html[data-theme="light"] .rounded-2xl.backdrop-blur-xl,
+html[data-theme="light"] .rounded-3xl.backdrop-blur-xl {
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.10),
+              0 2px 8px  rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+/* ── CTA Buttons — keep dark accent on light bg ── */
+html[data-theme="light"] [class*="bg-[#0A0A0A]"].h-11,
+html[data-theme="light"] [class*="bg-[#0A0A0A]"][class*="rounded-lg"] {
+  background: #1e293b !important;
+}
+html[data-theme="light"] [class*="bg-[#0A0A0A]"].h-11 .text-transparent,
+html[data-theme="light"] [class*="bg-[#0A0A0A]"][class*="rounded-lg"] .text-transparent {
+  color: #f1f5f9 !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+/* StatusBadge pill */
+html[data-theme="light"] .rounded-full.bg-black\/40 {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Tech stack pills */
+html[data-theme="light"] .rounded-full.bg-white\/5 {
+  background: rgba(255, 255, 255, 0.80) !important;
+  border-color: rgba(15, 23, 42, 0.10) !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* ╔══════════════════════════════════════
+   BORDERS
+   ══════════════════════════════════════╝ */
+html[data-theme="light"] .border-white\/5  { border-color: rgba(15,23,42,0.05) !important; }
+html[data-theme="light"] .border-white\/10 { border-color: rgba(15,23,42,0.10) !important; }
+html[data-theme="light"] .border-white\/15 { border-color: rgba(15,23,42,0.12) !important; }
+html[data-theme="light"] .border-white\/20 { border-color: rgba(15,23,42,0.15) !important; }
+html[data-theme="light"] .border-white\/30 { border-color: rgba(15,23,42,0.20) !important; }
+html[data-theme="light"] .border-white\/40 { border-color: rgba(15,23,42,0.25) !important; }
+
+/* ╔══════════════════════════════════════
+   FORM INPUTS
+   ══════════════════════════════════════╝ */
 html[data-theme="light"] input,
 html[data-theme="light"] textarea {
-  color: var(--text-primary) !important;
-  background-color: var(--input-bg) !important;
+  background: rgba(255, 255, 255, 0.90) !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.14) !important;
+}
+html[data-theme="light"] input:focus,
+html[data-theme="light"] textarea:focus {
+  border-color: rgba(15, 23, 42, 0.35) !important;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06) !important;
 }
 html[data-theme="light"] input::placeholder,
 html[data-theme="light"] textarea::placeholder {
-  color: var(--text-muted) !important;
+  color: #94a3b8 !important;
 }
 
-/* Gradient text: keep visible on light bg */
-html[data-theme="light"] .bg-gradient-to-r.from-\[\#ffffff\].bg-clip-text.text-transparent {
-  background-image: linear-gradient(to right, #0f172a, #334155) !important;
+/* ╔══════════════════════════════════════
+   SOCIAL LINK BUTTONS (in SocialLinks & Home)
+   ══════════════════════════════════════╝ */
+html[data-theme="light"] .bg-white\/5.border.border-white\/10 {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(15, 23, 42, 0.10) !important;
 }
 
-/* Scrollbar in light mode */
+/* ╔══════════════════════════════════════
+   SCROLLBAR (light)
+   ══════════════════════════════════════╝ */
 html[data-theme="light"] ::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-  border-color: rgba(34, 197, 94, 0.15);
+  background: rgba(241, 245, 249, 0.9);
+  border-color: rgba(15, 23, 42, 0.08);
 }
 html[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
+  background: rgba(100, 116, 139, 0.35);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.55);
+  box-shadow: none;
 }
 
-/* Animated background grid: subtle in light mode */
-html[data-theme="light"] canvas,
-html[data-theme="light"] .pointer-events-none > * {
-  opacity: 0.3;
+/* ╔══════════════════════════════════════
+   PROFILE PHOTO RING
+   ══════════════════════════════════════╝ */
+html[data-theme="light"] .border-white\/20.rounded-full {
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+
+/* ╔══════════════════════════════════════
+   WELCOME SCREEN (dark overlay kept dark)
+   ══════════════════════════════════════╝ */
+html[data-theme="light"] .fixed.inset-0.bg-\[\#0A0A0A\] {
+  background: #0a0a0a !important;
 }

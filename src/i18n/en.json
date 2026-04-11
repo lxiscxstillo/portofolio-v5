@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
+  "home": {
+    "badge": "Ready for Hire",
+    "description": "From concept to deployment — engineering intelligent solutions that actually work.",
+    "btn_projects": "Projects",
+    "btn_contact": "Contact"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Building intelligent systems that make a real difference",
+    "greeting": "Hello, I'm",
+    "bio_1": "I'm a Full-Stack AI Engineer focused on building intelligent systems that go beyond prototypes and deliver real-world impact. I combine software engineering with artificial intelligence to design, develop, and deploy scalable products powered by data and LLMs.",
+    "bio_2": "My work is centered on turning complex ideas into functional solutions — from backend architecture and APIs to intuitive user experiences. I'm especially interested in creating AI-driven applications that solve meaningful problems and push the boundaries of what technology can do.",
+    "bio_3": "I don't just write code — I build systems that think, learn, and evolve.",
+    "quote": "Build software that solves real problems.",
+    "btn_cv": "View CV",
+    "btn_projects": "View Projects",
+    "stat_projects": "Total Projects",
+    "stat_projects_desc": "Intelligent systems built end-to-end",
+    "stat_certs": "Certificates",
+    "stat_certs_desc": "Professional skills validated",
+    "stat_exp": "Years of Experience",
+    "stat_exp_desc": "Continuous learning journey"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Have a question or want to work together? Send me a message.",
+    "form_title": "Contact",
+    "form_subtitle": "Have something to discuss? Send me a message and let's talk.",
+    "placeholder_name": "Your Name",
+    "placeholder_email": "Your Email",
+    "placeholder_message": "Your Message",
+    "btn_send": "Send Message",
+    "btn_sending": "Sending..."
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "subtitle": "What people say about working with me",
+    "empty": "No testimonials yet. Be the first!",
+    "form_title": "Leave a Testimonial",
+    "label_name": "Name",
+    "label_role": "Role",
+    "label_company": "Company",
+    "label_message": "Message",
+    "label_photo": "Profile Photo",
+    "optional": "optional",
+    "btn_submit": "Submit Testimonial",
+    "btn_submitting": "Submitting...",
+    "already_submitted": "Testimonial already submitted",
+    "already_submitted_desc": "You can only leave one testimonial per device. Thank you!",
+    "review_message": "Tu testimonio está en revisión. ¡Muchas gracias por tu interés!",
+    "pinned_label": "Pinned",
+    "connect": "Connect With Me"
+  },
+  "footer": {
+    "tagline": "Building intelligent systems that make a real difference.",
+    "quick_links": "Quick Links",
+    "connect": "Connect",
+    "rights": "All Rights Reserved."
+  }
+}

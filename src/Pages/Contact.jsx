@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
+import { useLanguage } from "../context/LanguageContext";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const ContactPage = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     AOS.init({ once: false });
@@ -102,14 +104,14 @@ const ContactPage = () => {
           data-aos-duration="1000"
           className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-white"
         >
-          Get in Touch
+          {t('contact.title')}
         </h2>
         <p
           data-aos="fade-up"
           data-aos-duration="1100"
           className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2"
         >
-          Have a question or want to work together? Send me a message.
+          {t('contact.subtitle')}
         </p>
       </div>
 
@@ -118,13 +120,12 @@ const ContactPage = () => {
         id="Contact"
       >
         <div className="container px-[1%] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-[45%_55%] 2xl:grid-cols-[35%_65%] gap-12">
+          {/* Contact form */}
           <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-5 py-10 sm:p-10 transform transition-all duration-500 hover:shadow-white/5">
             <div className="flex justify-between items-start mb-8">
               <div>
-                <h2 className="text-4xl font-bold mb-3 text-white">Contact</h2>
-                <p className="text-gray-400">
-                  Have something to discuss? Send me a message and let's talk.
-                </p>
+                <h2 className="text-4xl font-bold mb-3 text-white">{t('contact.form_title')}</h2>
+                <p className="text-gray-400">{t('contact.form_subtitle')}</p>
               </div>
               <Share2 className="w-10 h-10 text-white opacity-30" />
             </div>
@@ -135,7 +136,7 @@ const ContactPage = () => {
                 <input
                   type="text"
                   name="name"
-                  placeholder="Your Name"
+                  placeholder={t('contact.placeholder_name')}
                   value={formData.name}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -148,7 +149,7 @@ const ContactPage = () => {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Your Email"
+                  placeholder={t('contact.placeholder_email')}
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -160,7 +161,7 @@ const ContactPage = () => {
                 <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-gray-400 group-focus-within:text-white transition-colors" />
                 <textarea
                   name="message"
-                  placeholder="Your Message"
+                  placeholder={t('contact.placeholder_message')}
                   value={formData.message}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -176,7 +177,7 @@ const ContactPage = () => {
                 className="w-full bg-white text-black py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:bg-gray-100 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Send className="w-5 h-5" />
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {isSubmitting ? t('contact.btn_sending') : t('contact.btn_send')}
               </button>
             </form>
 
@@ -185,6 +186,7 @@ const ContactPage = () => {
             </div>
           </div>
 
+          {/* Testimonios panel */}
           <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-3 py-3 md:p-10 md:py-8 shadow-2xl transform transition-all duration-500 hover:shadow-white/5">
             <Komentar />
           </div>

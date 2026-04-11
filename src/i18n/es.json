@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre Mí",
+    "portfolio": "Portafolio",
+    "contact": "Contacto"
+  },
+  "home": {
+    "badge": "Disponible para Trabajo",
+    "description": "Del concepto al despliegue — construyendo soluciones inteligentes que realmente funcionan.",
+    "btn_projects": "Proyectos",
+    "btn_contact": "Contacto"
+  },
+  "about": {
+    "title": "Sobre Mí",
+    "subtitle": "Construyendo sistemas inteligentes que marcan una diferencia real",
+    "greeting": "Hola, soy",
+    "bio_1": "Soy un Ingeniero Full-Stack AI enfocado en construir sistemas inteligentes que van más allá de los prototipos y generan impacto real. Combino ingeniería de software con inteligencia artificial para diseñar, desarrollar y desplegar productos escalables impulsados por datos y LLMs.",
+    "bio_2": "Mi trabajo se centra en convertir ideas complejas en soluciones funcionales — desde arquitectura backend y APIs hasta experiencias de usuario intuitivas. Me interesa especialmente crear aplicaciones impulsadas por IA que resuelvan problemas significativos.",
+    "bio_3": "No solo escribo código — construyo sistemas que piensan, aprenden y evolucionan.",
+    "quote": "Construye software que resuelva problemas reales.",
+    "btn_cv": "Ver CV",
+    "btn_projects": "Ver Proyectos",
+    "stat_projects": "Proyectos Totales",
+    "stat_projects_desc": "Sistemas inteligentes construidos de principio a fin",
+    "stat_certs": "Certificados",
+    "stat_certs_desc": "Habilidades profesionales validadas",
+    "stat_exp": "Años de Experiencia",
+    "stat_exp_desc": "Aprendizaje continuo"
+  },
+  "contact": {
+    "title": "Ponte en Contacto",
+    "subtitle": "¿Tienes una pregunta o quieres trabajar juntos? Envíame un mensaje.",
+    "form_title": "Contacto",
+    "form_subtitle": "¿Algo que discutir? Envíame un mensaje y hablemos.",
+    "placeholder_name": "Tu Nombre",
+    "placeholder_email": "Tu Email",
+    "placeholder_message": "Tu Mensaje",
+    "btn_send": "Enviar Mensaje",
+    "btn_sending": "Enviando..."
+  },
+  "testimonials": {
+    "title": "Testimonios",
+    "subtitle": "Lo que dicen las personas sobre trabajar conmigo",
+    "empty": "Aún no hay testimonios. ¡Sé el primero!",
+    "form_title": "Dejar un Testimonio",
+    "label_name": "Nombre",
+    "label_role": "Cargo",
+    "label_company": "Empresa",
+    "label_message": "Mensaje",
+    "label_photo": "Foto de Perfil",
+    "optional": "opcional",
+    "btn_submit": "Enviar Testimonio",
+    "btn_submitting": "Enviando...",
+    "already_submitted": "Testimonio ya enviado",
+    "already_submitted_desc": "Solo puedes dejar un testimonio por dispositivo. ¡Gracias!",
+    "review_message": "Tu testimonio está en revisión. ¡Muchas gracias por tu interés!",
+    "pinned_label": "Destacado",
+    "connect": "Conéctate Conmigo"
+  },
+  "footer": {
+    "tagline": "Construyendo sistemas inteligentes que marcan una diferencia real.",
+    "quick_links": "Navegación",
+    "connect": "Conectar",
+    "rights": "Todos los Derechos Reservados."
+  }
+}

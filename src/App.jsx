@@ -8,6 +8,8 @@ import About from "./Pages/About";
 import AnimatedBackground from "./components/Background";
 import { AnimatePresence } from "framer-motion";
 import Footer from "./components/Footer";
+import { LanguageProvider } from "./context/LanguageContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
@@ -33,7 +35,6 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
       {!showWelcome && (
         <>
           <Navbar />
-      
           <Home />
           <About />
           <Suspense fallback={<div className="h-20" />}>
@@ -60,50 +61,53 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
   return (
-    
     <HelmetProvider>
-      <div className="pointer-events-none">
-  <AnimatedBackground />
-</div>
-      <BrowserRouter>
-        <Routes>
-          {/* PUBLIC */}
-          <Route
-            path="/"
-            element={
-              <LandingPage
-                showWelcome={showWelcome}
-                setShowWelcome={setShowWelcome}
+      <LanguageProvider>
+        <ThemeProvider>
+          <div className="pointer-events-none">
+            <AnimatedBackground />
+          </div>
+          <BrowserRouter>
+            <Routes>
+              {/* PUBLIC */}
+              <Route
+                path="/"
+                element={
+                  <LandingPage
+                    showWelcome={showWelcome}
+                    setShowWelcome={setShowWelcome}
+                  />
+                }
               />
-            }
-          />
 
-          <Route path="/project/:slug" element={<ProjectPageLayout />} />
+              <Route path="/project/:slug" element={<ProjectPageLayout />} />
 
-          {/* AUTH */}
-          <Route path="/login" element={<Login />} />
+              {/* AUTH */}
+              <Route path="/login" element={<Login />} />
 
-          {/* ADMIN (PROTECTED) */}
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+              {/* ADMIN (PROTECTED) */}
+              <Route
+                path="/dashboard/*"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-          {/* 404 */}
-          <Route
-            path="*"
-            element={
-              <Suspense fallback={null}>
-                <NotFoundPage />
-              </Suspense>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+              {/* 404 */}
+              <Route
+                path="*"
+                element={
+                  <Suspense fallback={null}>
+                    <NotFoundPage />
+                  </Suspense>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </LanguageProvider>
     </HelmetProvider>
   );
 }

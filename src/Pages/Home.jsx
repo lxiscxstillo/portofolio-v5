@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, memo } from "react"
 import { Helmet } from "react-helmet-async"
-import { Github, Linkedin, Mail, ExternalLink, Instagram, Sparkles } from "lucide-react"
+import { Github, Linkedin, Mail, ExternalLink, Sparkles } from "lucide-react"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -80,7 +80,6 @@ const TECH_STACK = ["Next.js", "React", "TypeScript", "Python", "LangGraph", "Fa
 const SOCIAL_LINKS = [
   { icon: Github, link: "https://github.com/lxiscxstillo", label: "GitHub Profile" },
   { icon: Linkedin, link: "https://www.linkedin.com/in/luis-esteban-castillo-pedroza", label: "LinkedIn Profile" },
-  { icon: Instagram, link: "https://www.instagram.com/__cxs_______", label: "Instagram Profile" }
 ];
 
 const Home = () => {
@@ -156,8 +155,7 @@ const Home = () => {
             "url": "https://lxiscxstillo.vercel.app",
             "sameAs": [
               "https://github.com/lxiscxstillo",
-              "https://www.linkedin.com/in/luis-esteban-castillo-pedroza",
-              "https://www.instagram.com/__cxs_______"
+              "https://www.linkedin.com/in/luis-esteban-castillo-pedroza"
             ]
           }
         `}</script>

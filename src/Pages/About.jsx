@@ -54,7 +54,7 @@ const ProfileImage = memo(() => {
         </div>
 
         <div className="relative">
-          <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.1)] transform transition-all duration-700 group-hover:scale-105 relative">
+          <div className="w-80 h-80 sm:w-96 sm:h-96 rounded-full overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.1)] transform transition-all duration-700 group-hover:scale-105 relative">
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 z-10 transition-opacity duration-700 group-hover:opacity-0 hidden sm:block" />
             <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-gray-400/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 hidden sm:block" />
 
@@ -132,7 +132,7 @@ const AboutPage = () => {
   const [totalCertificates, setTotalCertificates] = useState(0);
 
   const YearExperience = useMemo(() => {
-    const startDate = new Date("2026-01-01");
+    const startDate = new Date("2024-01-01");
     const today = new Date();
     return today.getFullYear() - startDate.getFullYear() -
       (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);

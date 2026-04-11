@@ -193,3 +193,154 @@ body {
 .swal2-confirm {
   color: #000000 !important;
 }
+
+/* ============================================================
+   THEME: CSS Custom Properties
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+  --page-bg: #0A0A0A;
+  --page-bg-secondary: #111111;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-bg-hover: rgba(255, 255, 255, 0.08);
+  --text-primary: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-muted: #6b7280;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color-strong: rgba(255, 255, 255, 0.2);
+  --nav-bg: rgba(10, 10, 10, 0.8);
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --scrollbar-track: rgba(10, 10, 10, 0.8);
+  --scrollbar-thumb: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="light"] {
+  --page-bg: #f8fafc;
+  --page-bg-secondary: #f1f5f9;
+  --card-bg: rgba(0, 0, 0, 0.04);
+  --card-bg-hover: rgba(0, 0, 0, 0.07);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --border-color-strong: rgba(0, 0, 0, 0.18);
+  --nav-bg: rgba(248, 250, 252, 0.85);
+  --input-bg: rgba(0, 0, 0, 0.04);
+  --scrollbar-track: rgba(241, 245, 249, 0.8);
+  --scrollbar-thumb: rgba(34, 197, 94, 0.4);
+}
+
+/* ============================================================
+   LIGHT THEME: Global overrides
+   ============================================================ */
+[data-theme="light"] html,
+[data-theme="light"] body,
+html[data-theme="light"],
+html[data-theme="light"] body {
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] #Home,
+[data-theme="light"] #About,
+[data-theme="light"] #Portofolio,
+[data-theme="light"] #Contact {
+  background-color: var(--page-bg);
+}
+
+/* Sections with hardcoded dark bg */
+html[data-theme="light"] .min-h-screen {
+  background-color: var(--page-bg);
+}
+
+html[data-theme="light"] {
+  background-color: var(--page-bg);
+}
+
+html[data-theme="light"] body {
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Override dark section backgrounds */
+html[data-theme="light"] [class*="bg-\[#0A0A0A\]"],
+html[data-theme="light"] [class*="bg-\[#030014\]"] {
+  background-color: var(--page-bg) !important;
+}
+
+/* Text overrides */
+html[data-theme="light"] .text-white {
+  color: var(--text-primary) !important;
+}
+html[data-theme="light"] .text-gray-300 {
+  color: var(--text-secondary) !important;
+}
+html[data-theme="light"] .text-gray-400 {
+  color: var(--text-muted) !important;
+}
+html[data-theme="light"] .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* Card backgrounds */
+html[data-theme="light"] .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+html[data-theme="light"] .bg-white\/8,
+html[data-theme="light"] .bg-white\/\[0\.08\] {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+html[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.07) !important;
+}
+html[data-theme="light"] .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+html[data-theme="light"] .bg-black\/40,
+html[data-theme="light"] .bg-black\/50 {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Borders */
+html[data-theme="light"] .border-white\/5  { border-color: rgba(0,0,0,0.05)  !important; }
+html[data-theme="light"] .border-white\/10 { border-color: rgba(0,0,0,0.10)  !important; }
+html[data-theme="light"] .border-white\/15 { border-color: rgba(0,0,0,0.12)  !important; }
+html[data-theme="light"] .border-white\/20 { border-color: rgba(0,0,0,0.15)  !important; }
+html[data-theme="light"] .border-white\/30 { border-color: rgba(0,0,0,0.20)  !important; }
+
+/* Gray section bg */
+html[data-theme="light"] .bg-gray-900\/50 {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Form inputs */
+html[data-theme="light"] input,
+html[data-theme="light"] textarea {
+  color: var(--text-primary) !important;
+  background-color: var(--input-bg) !important;
+}
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Gradient text: keep visible on light bg */
+html[data-theme="light"] .bg-gradient-to-r.from-\[\#ffffff\].bg-clip-text.text-transparent {
+  background-image: linear-gradient(to right, #0f172a, #334155) !important;
+}
+
+/* Scrollbar in light mode */
+html[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-color: rgba(34, 197, 94, 0.15);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+/* Animated background grid: subtle in light mode */
+html[data-theme="light"] canvas,
+html[data-theme="light"] .pointer-events-none > * {
+  opacity: 0.3;
+}

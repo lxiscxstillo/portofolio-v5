@@ -114,12 +114,12 @@ const TestimonialForm = memo(({ onSubmit, isSubmitting }) => {
         if (!file) return;
         setImageError('');
         if (file.size > 5 * 1024 * 1024) {
-            setImageError('The photo is too large. Please choose one under 5 MB.');
+            setImageError(t('testimonials.error_photo_size'));
             if (e.target) e.target.value = '';
             return;
         }
         if (!file.type.startsWith('image/')) {
-            setImageError('That file type is not supported. Please upload a JPG, PNG or WEBP image.');
+            setImageError(t('testimonials.error_photo_type'));
             if (e.target) e.target.value = '';
             return;
         }
@@ -182,7 +182,7 @@ const TestimonialForm = memo(({ onSubmit, isSubmitting }) => {
                         value={userRole}
                         onChange={(e) => setUserRole(e.target.value)}
                         maxLength={40}
-                        placeholder="e.g. CTO"
+                        placeholder={t('testimonials.placeholder_role')}
                         required
                         className={inputClass}
                     />
@@ -196,7 +196,7 @@ const TestimonialForm = memo(({ onSubmit, isSubmitting }) => {
                         value={userCompany}
                         onChange={(e) => setUserCompany(e.target.value)}
                         maxLength={40}
-                        placeholder="e.g. TechCorp"
+                        placeholder={t('testimonials.placeholder_company')}
                         required
                         className={inputClass}
                     />
@@ -213,7 +213,7 @@ const TestimonialForm = memo(({ onSubmit, isSubmitting }) => {
                     value={newComment}
                     maxLength={200}
                     onChange={handleTextareaChange}
-                    placeholder="Write your testimonial here..."
+                    placeholder={t('testimonials.placeholder_message')}
                     className={`${inputClass} resize-none min-h-[100px]`}
                     required
                 />
@@ -249,7 +249,7 @@ const TestimonialForm = memo(({ onSubmit, isSubmitting }) => {
                                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 text-gray-300 hover:bg-white/20 transition-all text-xs cursor-pointer"
                             >
                                 <X className="w-3 h-3" />
-                                Remove
+                                {t('testimonials.remove_photo')}
                             </button>
                         </div>
                     ) : (
@@ -267,7 +267,7 @@ const TestimonialForm = memo(({ onSubmit, isSubmitting }) => {
                                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all border border-dashed border-white/20 hover:border-white/40 text-sm cursor-pointer"
                             >
                                 <ImagePlus className="w-4 h-4" />
-                                <span>Choose Photo</span>
+                                <span>{t('testimonials.choose_photo')}</span>
                             </button>
                         </div>
                     )}
@@ -322,7 +322,7 @@ const Komentar = () => {
     const [hasCommented, setHasCommented] = useState(false);
     const deviceId = useRef(getDeviceId());
 
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
 
     useEffect(() => {
         AOS.init({ once: false, duration: 800 });
@@ -349,8 +349,8 @@ const Komentar = () => {
                     .from('portfolio_comments')
                     .select('*')
                     .eq('is_pinned', true)
-                    .single();
-                if (error && error.code !== 'PGRST116') return;
+                    .maybeSingle();
+                if (error) return;
                 if (data) setPinnedComment(data);
             } catch (err) {
                 console.error('Error fetching pinned testimonial:', err);
@@ -359,17 +359,16 @@ const Komentar = () => {
         fetchPinnedComment();
     }, []);
 
-    /* Approved testimonials — keeps existing rows without is_approved field visible too */
+    /* All non-pinned testimonials */
     useEffect(() => {
         const fetchComments = async () => {
             const { data, error } = await supabase
                 .from('portfolio_comments')
                 .select('*')
                 .eq('is_pinned', false)
-                .or('is_approved.eq.true,is_approved.is.null')
                 .order('created_at', { ascending: false });
             if (error) {
-                setError("Couldn't load testimonials right now. Please refresh the page.");
+                setError(t('testimonials.error_load'));
             } else {
                 setComments(data || []);
             }
@@ -419,7 +418,6 @@ const Komentar = () => {
                     user_company: userCompany || null,
                     profile_image: profileImageUrl,
                     is_pinned: false,
-                    is_approved: false,
                     device_id: deviceId.current,
                     created_at: new Date().toISOString()
                 }]);
@@ -428,7 +426,7 @@ const Komentar = () => {
 
             /* Toast notification */
             Swal.fire({
-                title: '¡Recibido!',
+                title: t('testimonials.swal_received_title'),
                 text: t('testimonials.review_message'),
                 icon: 'success',
                 confirmButtonColor: '#ffffff',
@@ -440,11 +438,11 @@ const Komentar = () => {
             });
         } catch (err) {
             if (err.message === 'photo_upload') {
-                setError("We couldn't upload your photo. Try submitting without one, or use a smaller image.");
+                setError(t('testimonials.error_upload'));
             } else if (!navigator.onLine) {
-                setError("You appear to be offline. Please check your connection and try again.");
+                setError(t('testimonials.error_offline'));
             } else {
-                setError("Something went wrong posting your testimonial. Please try again in a moment.");
+                setError(t('testimonials.error_submit'));
             }
             console.error('Error adding testimonial:', err);
         } finally {
@@ -459,12 +457,13 @@ const Komentar = () => {
         const diffMinutes = Math.floor((now - date) / (1000 * 60));
         const diffHours = Math.floor(diffMinutes / 60);
         const diffDays = Math.floor(diffHours / 24);
-        if (diffMinutes < 1) return 'Just now';
-        if (diffMinutes < 60) return `${diffMinutes}m ago`;
-        if (diffHours < 24) return `${diffHours}h ago`;
-        if (diffDays < 7) return `${diffDays}d ago`;
-        return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
-    }, []);
+        if (diffMinutes < 1) return t('testimonials.date_just_now');
+        const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' });
+        if (diffMinutes < 60) return rtf.format(-diffMinutes, 'minute');
+        if (diffHours < 24) return rtf.format(-diffHours, 'hour');
+        if (diffDays < 7) return rtf.format(-diffDays, 'day');
+        return new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+    }, [lang, t]);
 
     const totalTestimonials = comments.length + (pinnedComment ? 1 : 0);
 
@@ -566,7 +565,7 @@ const Komentar = () => {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
                 .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 4px; }
                 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }

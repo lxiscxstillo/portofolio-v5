@@ -3,20 +3,45 @@
     "home": "Inicio",
     "about": "Sobre Mí",
     "portfolio": "Portafolio",
-    "contact": "Contacto"
+    "github": "GitHub",
+    "testimonials": "Testimonios",
+    "contact": "Contacto",
+    "toggle_theme_to_light": "Cambiar a Modo Claro",
+    "toggle_theme_to_dark": "Cambiar a Modo Oscuro",
+    "toggle_lang_to_es": "Cambiar a Español",
+    "toggle_lang_to_en": "Switch to English"
   },
   "home": {
     "badge": "Disponible para Trabajo",
     "description": "Del concepto al despliegue — construyendo soluciones inteligentes que realmente funcionan.",
     "btn_projects": "Proyectos",
-    "btn_contact": "Contacto"
+    "btn_contact": "Contacto",
+    "typing_words": [
+      "Constructor de Sistemas IA",
+      "Ingeniero de LLMs y Sistemas IA",
+      "Diseñando Experiencias Inteligentes",
+      "Creando Productos con IA"
+    ],
+    "aria_github": "Perfil de GitHub",
+    "aria_linkedin": "Perfil de LinkedIn",
+    "meta_title": "Luis Esteban Castillo Pedroza — Ingeniero FullStack AI",
+    "meta_description": "Portafolio de Luis Esteban Castillo Pedroza, Ingeniero FullStack AI. Construyendo sistemas inteligentes que combinan ingeniería de software con IA para generar impacto real.",
+    "meta_og_title": "Luis Esteban Castillo Pedroza — Ingeniero FullStack AI",
+    "meta_og_description": "Portafolio de Luis Esteban Castillo Pedroza, Ingeniero FullStack AI."
+  },
+  "welcome": {
+    "word1": "Bienvenido",
+    "word2": "a",
+    "word3": "Mi",
+    "word4": "Portafolio",
+    "word5": "Web"
   },
   "about": {
     "title": "Sobre Mí",
     "subtitle": "Construyendo sistemas inteligentes que marcan una diferencia real",
     "greeting": "Hola, soy",
     "bio_1": "Soy un Ingeniero Full-Stack AI enfocado en construir sistemas inteligentes que van más allá de los prototipos y generan impacto real. Combino ingeniería de software con inteligencia artificial para diseñar, desarrollar y desplegar productos escalables impulsados por datos y LLMs.",
-    "bio_2": "Mi trabajo se centra en convertir ideas complejas en soluciones funcionales — desde arquitectura backend y APIs hasta experiencias de usuario intuitivas. Me interesa especialmente crear aplicaciones impulsadas por IA que resuelvan problemas significativos.",
+    "bio_2": "Mi trabajo se centra en convertir ideas complejas en soluciones funcionales — desde arquitectura backend y APIs hasta experiencias de usuario intuitivas. Me interesa especialmente crear aplicaciones impulsadas por IA que resuelvan problemas significativos y amplíen los límites de lo que la tecnología puede hacer.",
     "bio_3": "No solo escribo código — construyo sistemas que piensan, aprenden y evolucionan.",
     "quote": "Construye software que resuelva problemas reales.",
     "btn_cv": "Ver CV",
@@ -37,7 +62,13 @@
     "placeholder_email": "Tu Email",
     "placeholder_message": "Tu Mensaje",
     "btn_send": "Enviar Mensaje",
-    "btn_sending": "Enviando..."
+    "btn_sending": "Enviando...",
+    "swal_sending_title": "Enviando Mensaje...",
+    "swal_sending_html": "Por favor espera mientras enviamos tu mensaje",
+    "swal_success_title": "¡Enviado!",
+    "swal_success_text": "¡Tu mensaje ha sido enviado exitosamente!",
+    "swal_error_title": "Error",
+    "swal_error_text": "Algo salió mal. Por favor intenta de nuevo más tarde."
   },
   "testimonials": {
     "title": "Testimonios",
@@ -56,12 +87,98 @@
     "already_submitted_desc": "Solo puedes dejar un testimonio por dispositivo. ¡Gracias!",
     "review_message": "Tu testimonio está en revisión. ¡Muchas gracias por tu interés!",
     "pinned_label": "Destacado",
-    "connect": "Conéctate Conmigo"
+    "connect": "Conéctate Conmigo",
+    "swal_received_title": "¡Recibido!",
+    "placeholder_role": "Ej. CTO",
+    "placeholder_company": "Ej. TechCorp",
+    "placeholder_message": "Escribe tu testimonio aquí...",
+    "remove_photo": "Eliminar",
+    "choose_photo": "Elegir Foto",
+    "error_photo_size": "La foto es demasiado grande. Por favor elige una de menos de 5 MB.",
+    "error_photo_type": "Ese tipo de archivo no está soportado. Por favor sube una imagen JPG, PNG o WEBP.",
+    "error_upload": "No pudimos subir tu foto. Intenta enviar sin ella o usa una imagen más pequeña.",
+    "error_offline": "Parece que estás sin conexión. Por favor verifica tu conexión e intenta de nuevo.",
+    "error_submit": "Algo salió mal al publicar tu testimonio. Por favor intenta de nuevo en un momento.",
+    "error_load": "No se pudieron cargar los testimonios ahora mismo. Por favor actualiza la página.",
+    "date_just_now": "Ahora mismo"
+  },
+  "portfolio": {
+    "title": "Portafolio",
+    "subtitle": "Explora mi camino a través de proyectos, certificaciones y experiencia técnica. Cada sección representa un hito en mi aprendizaje continuo.",
+    "tab_projects": "Proyectos",
+    "tab_certificates": "Certificados",
+    "tab_techstack": "Stack Técnico",
+    "see_more": "Ver Más",
+    "see_less": "Ver Menos"
+  },
+  "project": {
+    "back": "Volver",
+    "breadcrumb_projects": "Proyectos",
+    "loading": "Cargando Proyecto...",
+    "live_demo": "Demo en Vivo",
+    "technologies": "Tecnologías Usadas",
+    "no_tech": "No hay tecnologías añadidas.",
+    "features": "Características Clave",
+    "no_features": "No hay características añadidas.",
+    "total_tech": "Total Tecnologías",
+    "key_features": "Características Clave",
+    "private_title": "Código Fuente Privado",
+    "private_text": "Lo siento, el código fuente de este proyecto es privado.",
+    "private_confirm": "Entendido",
+    "demo": "Demo en Vivo",
+    "demo_unavailable": "Demo No Disponible",
+    "details": "Detalles",
+    "details_unavailable": "Detalles No Disponibles",
+    "no_demo_alert": "El enlace de demo en vivo no está disponible",
+    "no_details_alert": "Los detalles del proyecto no están disponibles"
+  },
+  "github": {
+    "title": "Actividad en GitHub",
+    "subtitle": "Un vistazo en tiempo real a mis contribuciones, racha de commits y lenguajes más usados.",
+    "repos": "Repos Públicos",
+    "stars": "Estrellas Totales",
+    "followers": "Seguidores",
+    "streak": "Racha Actual",
+    "contributions_label": "contribuciones en el último año",
+    "less": "Menos",
+    "more": "Más",
+    "top_languages": "Lenguajes Principales"
   },
   "footer": {
     "tagline": "Construyendo sistemas inteligentes que marcan una diferencia real.",
     "quick_links": "Navegación",
     "connect": "Conectar",
-    "rights": "Todos los Derechos Reservados."
+    "rights": "Todos los Derechos Reservados.",
+    "role": "Ingeniero FullStack AI"
+  },
+  "common": {
+    "loading": "Cargando..."
+  },
+  "presence": {
+    "now_playing": "REPRODUCIENDO",
+    "coding": "PROGRAMANDO",
+    "playing": "JUGANDO",
+    "active": "ACTIVO"
+  },
+  "techstack": {
+    "typescript": "Mi lenguaje por defecto en todo proyecto serio — SPAs tipadas en React, apps Angular y builds full-stack en Next.js.",
+    "python": "Construí un agente de ventas autónomo en WhatsApp con LangGraph y un servicio FastAPI con endpoints async y checkpointer en PostgreSQL.",
+    "java": "Desarrollé el backend completo de Cobamovil — JWT, control de acceso por roles, entidades JPA/Hibernate y migraciones con Flyway.",
+    "javascript": "Escribí el gateway Node.js del agente WhatsApp — webhooks, manejo de sesiones e integración con Prisma ORM.",
+    "html": "Estructuré todos los proyectos web con marcado semántico y accesible — desde secciones del portafolio hasta templates Angular.",
+    "css": "Creé los keyframes blob, animaciones de scroll y scrollbar personalizado que le dan vida a este portafolio.",
+    "react": "Construí este portafolio y el playground de unit testing — hooks, context API, lazy loading y transiciones con Framer Motion.",
+    "nextjs": "Publiqué Defect Insights (dashboard IA de manufactura) y MathScope usando App Router, Server Components y Genkit AI.",
+    "angular": "Entregué el frontend móvil de Cobamovil — formularios reactivos, módulos lazy-loaded, interceptores HTTP y guards por rol.",
+    "nodejs": "Alimenté el gateway del agente WhatsApp — API REST, sesiones WPPConnect y manejo de webhooks en tiempo real.",
+    "fastapi": "Serví el agente LangGraph — rutas async, validación con Pydantic y ejecución de grafos con estado usando checkpointing en PostgreSQL.",
+    "django": "Prototipé funcionalidades con el patrón MVT, consultas ORM y la interfaz de administración integrada.",
+    "spring": "Aseguré Cobamovil con filtros Spring Security, gestioné el esquema con Flyway y documenté la API con OpenAPI/Swagger.",
+    "postgresql": "Base de datos en producción en Cobamovil (JPA) y el agente WhatsApp (Prisma) — esquemas, índices y políticas RLS.",
+    "firebase": "Integré Genkit AI y sincronización en tiempo real en Defect Insights y MathScope vía Firebase Studio.",
+    "supabase": "Gestiona la auth, buckets de almacenamiento, comentarios en tiempo real y políticas de seguridad de este portafolio.",
+    "docker": "Conteneericé el stack del agente WhatsApp (Node.js + Python + PostgreSQL) y lo desplegué en Railway y Fly.io.",
+    "tailwind": "Estilé todas las UIs en React y Next.js — temas oscuros, tarjetas glass, grids responsivos y componentes personalizados.",
+    "vercel": "Desplegué este portafolio y todas las apps Next.js — CI/CD automático directo desde Git."
   }
 }

@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-import { supabase } from "../supabase"; 
+import { supabase } from "../supabase";
 
 import PropTypes from "prop-types";
+import { useLanguage } from "../context/LanguageContext";
+import { useTheme as useAppTheme } from "../context/ThemeContext";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
@@ -18,35 +20,65 @@ import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
 
 
-const ToggleButton = ({ onClick, isShowingMore }) => (
+const ToggleButton = ({ onClick, isShowingMore }) => {
+  const { t } = useLanguage();
+  const { theme: appTheme } = useAppTheme();
+  const isLight = appTheme === 'light';
+
+  return (
   <button
     onClick={onClick}
     className="
       px-3 py-1.5
-      text-slate-300 
-      hover:text-white 
-      text-sm 
-      font-medium 
-      transition-all 
-      duration-300 
+      text-sm
+      font-medium
+      transition-all
+      duration-300
       ease-in-out
-      flex 
-      items-center 
+      flex
+      items-center
       gap-2
-      bg-white/5 
-      hover:bg-white/10
       rounded-md
-      border 
-      border-white/10
-      hover:border-white/20
+      border
       backdrop-blur-sm
       group
       relative
       overflow-hidden
     "
+    style={isLight ? {
+      color: '#475569',
+      background: 'rgba(99,102,241,0.06)',
+      borderColor: 'rgba(99,102,241,0.16)',
+    } : {
+      color: '#cbd5e1',
+      background: 'rgba(255,255,255,0.05)',
+      borderColor: 'rgba(255,255,255,0.10)',
+    }}
+    onMouseEnter={e => {
+      if (isLight) {
+        e.currentTarget.style.color = '#0f172a';
+        e.currentTarget.style.background = 'rgba(99,102,241,0.10)';
+        e.currentTarget.style.borderColor = 'rgba(99,102,241,0.22)';
+      } else {
+        e.currentTarget.style.color = '#ffffff';
+        e.currentTarget.style.background = 'rgba(255,255,255,0.10)';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
+      }
+    }}
+    onMouseLeave={e => {
+      if (isLight) {
+        e.currentTarget.style.color = '#475569';
+        e.currentTarget.style.background = 'rgba(99,102,241,0.06)';
+        e.currentTarget.style.borderColor = 'rgba(99,102,241,0.16)';
+      } else {
+        e.currentTarget.style.color = '#cbd5e1';
+        e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)';
+      }
+    }}
   >
     <span className="relative z-10 flex items-center gap-2">
-      {isShowingMore ? "See Less" : "See More"}
+      {isShowingMore ? t('portfolio.see_less') : t('portfolio.see_more')}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -58,17 +90,21 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
         strokeLinecap="round"
         strokeLinejoin="round"
         className={`
-          transition-transform 
-          duration-300 
+          transition-transform
+          duration-300
           ${isShowingMore ? "group-hover:-translate-y-0.5" : "group-hover:translate-y-0.5"}
         `}
       >
         <polyline points={isShowingMore ? "18 15 12 9 6 15" : "6 9 12 15 18 9"}></polyline>
       </svg>
     </span>
-    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-200/50 transition-all duration-300 group-hover:w-full"></span>
+    <span
+      className="absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full"
+      style={{ background: isLight ? 'rgba(99,102,241,0.40)' : 'rgba(203,213,225,0.50)' }}
+    />
   </button>
-);
+  );
+};
 
 
 function TabPanel({ children, value, index, ...other }) {
@@ -104,29 +140,32 @@ function a11yProps(index) {
 
 const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons";
 const techStacks = [
-  { icon: `${CDN}/typescript/typescript-original.svg`, language: "TypeScript", description: "Primary language. Type-safe frontends with React/Next.js, Angular SPAs, and Node.js backends." },
-  { icon: `${CDN}/python/python-original.svg`, language: "Python", description: "AI agents with LangGraph & LangChain, REST APIs with FastAPI, and automation scripts." },
-  { icon: `${CDN}/java/java-original.svg`, language: "Java", description: "Spring Boot backend for Cobamovil with JWT auth, JPA/Hibernate, and REST APIs." },
-  { icon: `${CDN}/javascript/javascript-original.svg`, language: "JavaScript", description: "Runtime for Node.js services, browser scripting, and earlier full-stack projects." },
-  { icon: `${CDN}/html5/html5-original.svg`, language: "HTML", description: "Semantic markup across all web projects with accessibility and SEO structure." },
-  { icon: `${CDN}/css3/css3-original.svg`, language: "CSS", description: "Custom animations, keyframes, blob effects, and responsive layouts." },
-  { icon: `${CDN}/react/react-original.svg`, language: "React", description: "Core library for this portfolio and multiple SPAs using hooks and Framer Motion." },
-  { icon: `${CDN}/nextjs/nextjs-original.svg`, language: "Next.js", description: "Full-stack apps with App Router — WhatsApp AI agent dashboard and AI tools." },
-  { icon: `${CDN}/angular/angular-original.svg`, language: "Angular", description: "Full Cobamovil frontend SPA with reactive forms, services, and Angular CLI." },
-  { icon: `${CDN}/nodejs/nodejs-original.svg`, language: "Node.js", description: "WhatsApp sales agent backend — webhooks, REST API, and Prisma ORM." },
-  { icon: `${CDN}/fastapi/fastapi-original.svg`, language: "FastAPI", description: "LangGraph agent service with async endpoints, Pydantic models, and PostgreSQL checkpointer." },
-  { icon: `${CDN}/django/django-plain.svg`, language: "Django", description: "MVT architecture, ORM models, forms, and Django admin panels." },
-  { icon: `${CDN}/spring/spring-original.svg`, language: "Spring Boot", description: "Cobamovil backend with Spring Security, Flyway migrations, and OpenAPI docs." },
-  { icon: `${CDN}/postgresql/postgresql-original.svg`, language: "PostgreSQL", description: "Production DB for Cobamovil and the WhatsApp agent with Prisma and JPA." },
-  { icon: `${CDN}/firebase/firebase-original.svg`, language: "Firebase", description: "Real-time database and hosting for Defect Insights and MathScope." },
-  { icon: `${CDN}/supabase/supabase-original.svg`, language: "Supabase", description: "Auth, storage buckets, and real-time DB powering this portfolio." },
-  { icon: `${CDN}/docker/docker-original.svg`, language: "Docker", description: "Containerized multi-service apps (Node + Python + PostgreSQL) deployed to Railway." },
-  { icon: `${CDN}/tailwindcss/tailwindcss-original.svg`, language: "Tailwind CSS", description: "Utility-first styling for all React/Next.js dark-themed UIs." },
-  { icon: "vercel.svg", language: "Vercel", description: "Primary deployment platform for frontends, SPAs, and Next.js apps." },
+  { icon: `${CDN}/typescript/typescript-original.svg`, language: "TypeScript", descKey: "techstack.typescript" },
+  { icon: `${CDN}/python/python-original.svg`, language: "Python", descKey: "techstack.python" },
+  { icon: `${CDN}/java/java-original.svg`, language: "Java", descKey: "techstack.java" },
+  { icon: `${CDN}/javascript/javascript-original.svg`, language: "JavaScript", descKey: "techstack.javascript" },
+  { icon: `${CDN}/html5/html5-original.svg`, language: "HTML", descKey: "techstack.html" },
+  { icon: `${CDN}/css3/css3-original.svg`, language: "CSS", descKey: "techstack.css" },
+  { icon: `${CDN}/react/react-original.svg`, language: "React", descKey: "techstack.react" },
+  { icon: `${CDN}/nextjs/nextjs-original.svg`, language: "Next.js", descKey: "techstack.nextjs" },
+  { icon: `${CDN}/angular/angular-original.svg`, language: "Angular", descKey: "techstack.angular" },
+  { icon: `${CDN}/nodejs/nodejs-original.svg`, language: "Node.js", descKey: "techstack.nodejs" },
+  { icon: `${CDN}/fastapi/fastapi-original.svg`, language: "FastAPI", descKey: "techstack.fastapi" },
+  { icon: `${CDN}/django/django-plain.svg`, language: "Django", descKey: "techstack.django" },
+  { icon: `${CDN}/spring/spring-original.svg`, language: "Spring Boot", descKey: "techstack.spring" },
+  { icon: `${CDN}/postgresql/postgresql-original.svg`, language: "PostgreSQL", descKey: "techstack.postgresql" },
+  { icon: `${CDN}/firebase/firebase-original.svg`, language: "Firebase", descKey: "techstack.firebase" },
+  { icon: `${CDN}/supabase/supabase-original.svg`, language: "Supabase", descKey: "techstack.supabase" },
+  { icon: `${CDN}/docker/docker-original.svg`, language: "Docker", descKey: "techstack.docker" },
+  { icon: `${CDN}/tailwindcss/tailwindcss-original.svg`, language: "Tailwind CSS", descKey: "techstack.tailwind" },
+  { icon: "vercel.svg", language: "Vercel", descKey: "techstack.vercel" },
 ];
 
 export default function FullWidthTabs() {
   const theme = useTheme();
+  const { theme: appTheme } = useAppTheme();
+  const isLight = appTheme === 'light';
+  const { t } = useLanguage();
   const [value, setValue] = useState(0);
   const [projects, setProjects] = useState([]);
   const [certificates, setCertificates] = useState([]);
@@ -205,19 +244,27 @@ export default function FullWidthTabs() {
       {/* Header section - unchanged */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
         <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] to-[#e5e7eb]">
-          <span style={{
+          <span style={isLight ? {
+            color: '#1e293b',
+            backgroundImage: 'linear-gradient(45deg, #4f46e5 10%, #7c3aed 93%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          } : {
             color: '#ffffff',
             backgroundImage: 'linear-gradient(45deg, #ffffff 10%, #e5e7eb 93%)',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitTextFillColor: 'transparent',
           }}>
-            Portfolio Showcase
+            {t('portfolio.title')}
           </span>
         </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2">
-          Explore my journey through projects, certifications, and technical expertise. 
-          Each section represents a milestone in my continuous learning path.
+        <p
+          className="max-w-2xl mx-auto text-sm md:text-base mt-2"
+          style={{ color: isLight ? '#64748b' : '#94a3b8' }}
+        >
+          {t('portfolio.subtitle')}
         </p>
       </div>
 
@@ -227,11 +274,13 @@ export default function FullWidthTabs() {
           position="static"
           elevation={0}
           sx={{
-            bgcolor: "transparent",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
+            bgcolor: isLight ? "rgba(255,255,255,0.70)" : "transparent",
+            border: isLight ? "1px solid rgba(99,102,241,0.15)" : "1px solid rgba(255, 255, 255, 0.1)",
             borderRadius: "20px",
             position: "relative",
             overflow: "hidden",
+            backdropFilter: isLight ? "blur(16px)" : undefined,
+            boxShadow: isLight ? "0 4px 24px rgba(99,102,241,0.08), 0 1px 4px rgba(15,23,42,0.05)" : undefined,
             "&::before": {
               content: '""',
               position: "absolute",
@@ -239,14 +288,15 @@ export default function FullWidthTabs() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: "linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
+              background: isLight
+                ? "linear-gradient(180deg, rgba(99,102,241,0.03) 0%, rgba(139,92,246,0.03) 100%)"
+                : "linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
               backdropFilter: "blur(10px)",
               zIndex: 0,
             },
           }}
           className="md:px-4"
         >
-          {/* Tabs remain unchanged */}
           <Tabs
             value={value}
             onChange={handleChange}
@@ -258,7 +308,7 @@ export default function FullWidthTabs() {
               "& .MuiTab-root": {
                 fontSize: { xs: "0.9rem", md: "1rem" },
                 fontWeight: "600",
-                color: "#94a3b8",
+                color: isLight ? "#64748b" : "#94a3b8",
                 textTransform: "none",
                 transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                 padding: "20px 0",
@@ -266,20 +316,18 @@ export default function FullWidthTabs() {
                 margin: "8px",
                 borderRadius: "12px",
                 "&:hover": {
-                  color: "#ffffff",
-                  backgroundColor: "rgba(139, 92, 246, 0.1)",
+                  color: isLight ? "#1e293b" : "#ffffff",
+                  backgroundColor: isLight ? "rgba(99,102,241,0.08)" : "rgba(139, 92, 246, 0.1)",
                   transform: "translateY(-2px)",
-                  "& .lucide": {
-                    transform: "scale(1.1) rotate(5deg)",
-                  },
                 },
                 "&.Mui-selected": {
-                  color: "#fff",
-                  background: "linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2))",
-                  boxShadow: "0 4px 15px -3px rgba(139, 92, 246, 0.2)",
-                  "& .lucide": {
-                    color: "#a78bfa",
-                  },
+                  color: isLight ? "#4f46e5" : "#fff",
+                  background: isLight
+                    ? "linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12))"
+                    : "linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2))",
+                  boxShadow: isLight
+                    ? "0 4px 15px -3px rgba(99,102,241,0.20)"
+                    : "0 4px 15px -3px rgba(139, 92, 246, 0.2)",
                 },
               },
               "& .MuiTabs-indicator": {
@@ -292,17 +340,17 @@ export default function FullWidthTabs() {
           >
             <Tab
               icon={<Code className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Projects"
+              label={t('portfolio.tab_projects')}
               {...a11yProps(0)}
             />
             <Tab
               icon={<Award className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Certificates"
+              label={t('portfolio.tab_certificates')}
               {...a11yProps(1)}
             />
             <Tab
               icon={<Boxes className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Tech Stack"
+              label={t('portfolio.tab_techstack')}
               {...a11yProps(2)}
             />
           </Tabs>
@@ -376,7 +424,7 @@ export default function FullWidthTabs() {
                     data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
                     data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
                   >
-                    <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} description={stack.description} />
+                    <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} description={t(stack.descKey)} />
                   </div>
                 ))}
               </div>

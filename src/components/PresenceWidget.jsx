@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { Music2, Code2, Gamepad2, Headphones } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function PresenceWidget() {
   const [activities, setActivities] = useState([]);
+  const { t } = useLanguage();
 
   useEffect(() => {
+    let consecutiveFailures = 0;
+    let interval;
+
     const fetchPresence = async () => {
       try {
         const res = await fetch("http://localhost:3001/api/presence");
         const data = await res.json();
+        consecutiveFailures = 0;
 
         const normalized = (data.activities || [])
           .slice(0, 2)
@@ -47,13 +53,16 @@ export default function PresenceWidget() {
           });
 
         setActivities(normalized);
-      } catch (error) {
-        console.error("Failed to fetch presence:", error);
+      } catch {
+        consecutiveFailures++;
+        if (consecutiveFailures >= 3) {
+          clearInterval(interval);
+        }
       }
     };
 
     fetchPresence();
-    const interval = setInterval(fetchPresence, 5000);
+    interval = setInterval(fetchPresence, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -105,10 +114,10 @@ export default function PresenceWidget() {
 
   const getActivityLabel = (type) => {
     const labels = {
-      spotify: "NOW PLAYING",
-      coding: "CODING",
-      gaming: "PLAYING",
-      default: "ACTIVE"
+      spotify: t('presence.now_playing'),
+      coding: t('presence.coding'),
+      gaming: t('presence.playing'),
+      default: t('presence.active')
     };
     return labels[type] || labels.default;
   };

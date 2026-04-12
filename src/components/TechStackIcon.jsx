@@ -1,7 +1,27 @@
 import React, { useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 const TechStackIcon = ({ TechStackIcon, Language, description }) => {
   const [flipped, setFlipped] = useState(false);
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
+  const frontBg = isLight
+    ? 'linear-gradient(145deg, #ffffff 0%, #f0f4ff 50%, #e8eeff 100%)'
+    : 'linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)';
+  const frontBorder = isLight
+    ? '1px solid rgba(99, 102, 241, 0.15)'
+    : '1px solid rgba(255,255,255,0.07)';
+  const frontShadow = isLight
+    ? '0 4px 20px rgba(99, 102, 241, 0.10), 0 1px 4px rgba(15, 23, 42, 0.06)'
+    : undefined;
+
+  const backBg = isLight
+    ? 'linear-gradient(145deg, #e8eeff 0%, #f0f4ff 50%, #ffffff 100%)'
+    : 'linear-gradient(145deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%)';
+  const backBorder = isLight
+    ? '1px solid rgba(99, 102, 241, 0.18)'
+    : '1px solid rgba(255,255,255,0.12)';
 
   return (
     <div
@@ -19,12 +39,13 @@ const TechStackIcon = ({ TechStackIcon, Language, description }) => {
       >
         {/* Front */}
         <div
-          className="absolute inset-0 group rounded-2xl flex flex-col items-center justify-center gap-3 shadow-lg transition-all duration-300 hover:scale-105"
+          className="absolute inset-0 group rounded-2xl flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:scale-105"
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            background: 'linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-            border: '1px solid rgba(255,255,255,0.07)',
+            background: frontBg,
+            border: frontBorder,
+            boxShadow: frontShadow,
           }}
         >
           <img
@@ -32,7 +53,10 @@ const TechStackIcon = ({ TechStackIcon, Language, description }) => {
             alt={`${Language} icon`}
             className="h-16 w-16 md:h-20 md:w-20 object-contain drop-shadow-lg"
           />
-          <span className="text-slate-200 font-semibold text-sm md:text-base tracking-wide">
+          <span
+            className="font-semibold text-sm md:text-base tracking-wide"
+            style={{ color: isLight ? '#334155' : '#e2e8f0' }}
+          >
             {Language}
           </span>
         </div>
@@ -44,15 +68,24 @@ const TechStackIcon = ({ TechStackIcon, Language, description }) => {
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
-            background: 'linear-gradient(145deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            background: backBg,
+            border: backBorder,
           }}
         >
-          <span className="text-white font-bold text-sm tracking-wide">
+          <span
+            className="font-bold text-sm tracking-wide"
+            style={{ color: isLight ? '#1e293b' : '#ffffff' }}
+          >
             {Language}
           </span>
-          <div className="w-8 h-px bg-white/25 rounded-full" />
-          <p className="text-slate-300 text-[11px] md:text-xs text-center leading-relaxed">
+          <div
+            className="w-8 h-px rounded-full"
+            style={{ background: isLight ? 'rgba(99,102,241,0.35)' : 'rgba(255,255,255,0.25)' }}
+          />
+          <p
+            className="text-[11px] md:text-xs text-center leading-relaxed"
+            style={{ color: isLight ? '#475569' : '#cbd5e1' }}
+          >
             {description}
           </p>
         </div>

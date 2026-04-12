@@ -4,6 +4,7 @@ import { supabase } from "../supabase"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { useLanguage } from "../context/LanguageContext"
+import { useTheme } from "../context/ThemeContext"
 
 const Header = memo(() => {
   const { t } = useLanguage();
@@ -41,6 +42,8 @@ const PHOTOS = [
 
 const ProfileImage = memo(() => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,7 +60,14 @@ const ProfileImage = memo(() => {
         </div>
 
         <div className="relative">
-          <div className="w-80 h-80 sm:w-96 sm:h-96 rounded-full overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.1)] transform transition-all duration-700 group-hover:scale-105 relative">
+          <div
+            className="w-80 h-80 sm:w-96 sm:h-96 rounded-full overflow-hidden transform transition-all duration-700 group-hover:scale-105 relative"
+            style={{
+              boxShadow: isLight
+                ? '0 8px 40px rgba(99,102,241,0.18), 0 2px 12px rgba(15,23,42,0.10)'
+                : '0 0 40px rgba(255,255,255,0.10)',
+            }}
+          >
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 z-10 transition-opacity duration-700 group-hover:opacity-0 hidden sm:block" />
             <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-gray-400/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 hidden sm:block" />
 
@@ -86,17 +96,40 @@ const ProfileImage = memo(() => {
   );
 });
 
-const StatCard = memo(({ icon: Icon, color, value, label, description, animation }) => (
+const StatCard = memo(({ icon: Icon, color, value, label, description, animation }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
+  return (
   <div data-aos={animation} data-aos-duration={1300} className="relative group">
-    <div className="relative z-10 bg-gray-900/50 backdrop-blur-lg rounded-2xl p-6 border border-white/10 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl h-full flex flex-col justify-between">
+    <div
+      className="relative z-10 backdrop-blur-lg rounded-2xl p-6 border overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl h-full flex flex-col justify-between"
+      style={isLight ? {
+        background: 'rgba(255,255,255,0.88)',
+        borderColor: 'rgba(99,102,241,0.14)',
+        boxShadow: '0 4px 24px rgba(99,102,241,0.08), 0 1px 4px rgba(15,23,42,0.05)',
+      } : {
+        background: 'rgba(17,24,39,0.50)',
+        borderColor: 'rgba(255,255,255,0.10)',
+      }}
+    >
       <div className={`absolute -z-10 inset-0 bg-gradient-to-br ${color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
 
       <div className="flex items-center justify-between mb-4">
-        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 transition-transform group-hover:rotate-6">
-          <Icon className="w-8 h-8 text-white" />
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center transition-transform group-hover:rotate-6"
+          style={isLight ? {
+            background: 'rgba(99,102,241,0.12)',
+            border: '1px solid rgba(99,102,241,0.18)',
+          } : {
+            background: 'rgba(255,255,255,0.10)',
+          }}
+        >
+          <Icon className="w-8 h-8" style={{ color: isLight ? '#4f46e5' : '#ffffff' }} />
         </div>
         <span
-          className="text-4xl font-bold text-white"
+          className="text-4xl font-bold"
+          style={{ color: isLight ? '#0f172a' : '#ffffff' }}
           data-aos="fade-up-left"
           data-aos-duration="1500"
           data-aos-anchor-placement="top-bottom"
@@ -123,17 +156,23 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
           >
             {description}
           </p>
-          <ArrowUpRight className="w-4 h-4 text-white/50 group-hover:text-white transition-colors" />
+          <ArrowUpRight
+            className="w-4 h-4 transition-colors"
+            style={{ color: isLight ? 'rgba(99,102,241,0.55)' : 'rgba(255,255,255,0.50)' }}
+          />
         </div>
       </div>
     </div>
   </div>
-));
+  );
+});
 
 const AboutPage = () => {
   const [totalProjects, setTotalProjects] = useState(0);
   const [totalCertificates, setTotalCertificates] = useState(0);
   const { t } = useLanguage();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   const YearExperience = useMemo(() => {
     const startDate = new Date("2024-01-01");
@@ -240,7 +279,16 @@ const AboutPage = () => {
 
             {/* Quote */}
             <div
-              className="relative bg-gradient-to-br from-[#ffffff]/5 via-transparent to-[#e5e7eb]/5 border border-[#ffffff]/30 rounded-2xl p-4 my-6 backdrop-blur-md shadow-2xl overflow-hidden"
+              className="relative rounded-2xl p-4 my-6 backdrop-blur-md overflow-hidden"
+              style={isLight ? {
+                background: 'linear-gradient(135deg, rgba(99,102,241,0.07), rgba(139,92,246,0.05), rgba(99,102,241,0.04))',
+                border: '1px solid rgba(99,102,241,0.18)',
+                boxShadow: '0 4px 20px rgba(99,102,241,0.08)',
+              } : {
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.05), transparent, rgba(229,231,235,0.05))',
+                border: '1px solid rgba(255,255,255,0.30)',
+                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+              }}
               data-aos="fade-up"
               data-aos-duration="1700"
             >
@@ -270,7 +318,22 @@ const AboutPage = () => {
                 <button
                   data-aos="fade-up"
                   data-aos-duration="1000"
-                  className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg border border-[#ffffff]/50 text-[#ffffff] font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 hover:bg-[#ffffff]/10"
+                  className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2"
+                  style={isLight ? {
+                    border: '1px solid rgba(99,102,241,0.30)',
+                    color: '#4f46e5',
+                    background: 'transparent',
+                  } : {
+                    border: '1px solid rgba(255,255,255,0.50)',
+                    color: '#ffffff',
+                    background: 'transparent',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = isLight ? 'rgba(99,102,241,0.08)' : 'rgba(255,255,255,0.10)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
                 >
                   <Code className="w-4 h-4 sm:w-5 sm:h-5" /> {t('about.btn_projects')}
                 </button>
@@ -290,7 +353,7 @@ const AboutPage = () => {
         </a>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-20px); }

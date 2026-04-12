@@ -30,14 +30,16 @@ export default function Comments() {
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [actionLoading, setActionLoading] = useState(null); // id of comment being acted on
 
   const fetchComments = async () => {
     setLoading(true);
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("portfolio_comments")
       .select("*")
       .order("is_pinned", { ascending: false })
       .order("created_at", { ascending: false });
+    if (error) console.error("fetchComments error:", error);
     setComments(data || []);
     setLoading(false);
   };
@@ -52,17 +54,56 @@ export default function Comments() {
   }, [filter, search]);
 
   const pin = async (id, value) => {
-    await supabase
-      .from("portfolio_comments")
-      .update({ is_pinned: value })
-      .eq("id", id);
-    fetchComments();
+    setActionLoading(id);
+    try {
+      if (value) {
+        // Unpin any currently pinned comment first (only one pinned at a time)
+        const { error: unpinErr } = await supabase
+          .from("portfolio_comments")
+          .update({ is_pinned: false })
+          .eq("is_pinned", true);
+        if (unpinErr) throw unpinErr;
+      }
+      const { error } = await supabase
+        .from("portfolio_comments")
+        .update({ is_pinned: value })
+        .eq("id", id);
+      if (error) throw error;
+      await fetchComments();
+    } catch (err) {
+      console.error("pin error:", err);
+      alert("Failed to update pin status: " + (err.message || err));
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   const remove = async (id) => {
     if (!confirm("Delete this comment?")) return;
-    await supabase.from("portfolio_comments").delete().eq("id", id);
-    fetchComments();
+    setActionLoading(id);
+    try {
+      // .select() returns the deleted rows — if empty, RLS silently blocked it
+      const { data: deleted, error } = await supabase
+        .from("portfolio_comments")
+        .delete()
+        .eq("id", id)
+        .select();
+      if (error) throw error;
+      if (!deleted || deleted.length === 0) {
+        alert(
+          "Delete was blocked by Supabase RLS.\n\n" +
+          "Fix: go to Supabase → Table Editor → portfolio_comments → RLS Policies → add a DELETE policy that allows authenticated admins.\n\n" +
+          "Example policy:\nUSING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'))"
+        );
+        return;
+      }
+      await fetchComments();
+    } catch (err) {
+      console.error("delete error:", err);
+      alert("Failed to delete comment: " + (err.message || err));
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   const pinnedCount = comments.filter((c) => c.is_pinned).length;
@@ -271,14 +312,17 @@ export default function Comments() {
                   <div className="flex items-center gap-1.5 shrink-0">
                     <button
                       onClick={() => pin(comment.id, !comment.is_pinned)}
+                      disabled={actionLoading === comment.id}
                       title={comment.is_pinned ? "Unpin" : "Pin"}
-                      className={`p-2 rounded-lg border transition-all duration-200 ${
+                      className={`p-2 rounded-lg border transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${
                         comment.is_pinned
                           ? "border-white/30 bg-white/10 text-white hover:bg-white/20"
                           : "border-white/10 text-gray-500 hover:text-white hover:border-white/25"
                       }`}
                     >
-                      {comment.is_pinned ? (
+                      {actionLoading === comment.id ? (
+                        <div className="w-3.5 h-3.5 border border-current border-t-transparent rounded-full animate-spin" />
+                      ) : comment.is_pinned ? (
                         <PinOff className="w-3.5 h-3.5" />
                       ) : (
                         <Pin className="w-3.5 h-3.5" />
@@ -286,9 +330,14 @@ export default function Comments() {
                     </button>
                     <button
                       onClick={() => remove(comment.id)}
-                      className="p-2 rounded-lg border border-white/10 text-gray-500 hover:text-red-400 hover:border-red-500/20 hover:bg-red-500/5 transition-all duration-200"
+                      disabled={actionLoading === comment.id}
+                      className="p-2 rounded-lg border border-white/10 text-gray-500 hover:text-red-400 hover:border-red-500/20 hover:bg-red-500/5 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      {actionLoading === comment.id ? (
+                        <div className="w-3.5 h-3.5 border border-current border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Trash2 className="w-3.5 h-3.5" />
+                      )}
                     </button>
                   </div>
                 </div>

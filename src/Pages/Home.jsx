@@ -69,25 +69,28 @@ const CTAButton = memo(({ href, textKey, icon: Icon }) => {
   );
 });
 
-const SocialLink = memo(({ icon: Icon, link, label }) => (
-  <a href={link} target="_blank" rel="noopener noreferrer" aria-label={label}>
-    <button className="group relative p-3" aria-label={label}>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#ffffff] to-[#e5e7eb] rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-      <div className="relative rounded-xl bg-black/50 backdrop-blur-xl p-2 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all duration-300">
-        <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-      </div>
-    </button>
-  </a>
-));
+const SocialLink = memo(({ icon: Icon, link, labelKey }) => {
+  const { t } = useLanguage();
+  const label = t(labelKey);
+  return (
+    <a href={link} target="_blank" rel="noopener noreferrer" aria-label={label}>
+      <button className="group relative p-3" aria-label={label}>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#ffffff] to-[#e5e7eb] rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+        <div className="relative rounded-xl bg-black/50 backdrop-blur-xl p-2 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all duration-300">
+          <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+        </div>
+      </button>
+    </a>
+  );
+});
 
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["AI Systems Builder", "LLM & AI Systems Engineer", "Designing Intelligent Experiences", "Building AI-Powered Products"];
 const TECH_STACK = ["Next.js", "React", "TypeScript", "Python", "LangGraph", "FastAPI", "Angular", "PostgreSQL", "Docker", "Java"];
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/lxiscxstillo", label: "GitHub Profile" },
-  { icon: Linkedin, link: "https://www.linkedin.com/in/luis-esteban-castillo-pedroza", label: "LinkedIn Profile" },
+  { icon: Github, link: "https://github.com/lxiscxstillo", labelKey: "home.aria_github" },
+  { icon: Linkedin, link: "https://www.linkedin.com/in/luis-esteban-castillo-pedroza", labelKey: "home.aria_linkedin" },
 ];
 
 const Home = () => {
@@ -98,7 +101,8 @@ const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const words = t('home.typing_words');
 
   useEffect(() => {
     const initAOS = () => { AOS.init({ once: true, offset: 10 }); };
@@ -112,10 +116,20 @@ const Home = () => {
     return () => setIsLoaded(false);
   }, []);
 
+  // Reset typing effect when language changes
+  useEffect(() => {
+    setText('');
+    setIsTyping(true);
+    setWordIndex(0);
+    setCharIndex(0);
+  }, [lang]);
+
   const handleTyping = useCallback(() => {
+    if (!Array.isArray(words) || words.length === 0) return;
+    const currentWord = words[wordIndex] || '';
     if (isTyping) {
-      if (charIndex < WORDS[wordIndex].length) {
-        setText(prev => prev + WORDS[wordIndex][charIndex]);
+      if (charIndex < currentWord.length) {
+        setText(prev => prev + currentWord[charIndex]);
         setCharIndex(prev => prev + 1);
       } else {
         setTimeout(() => setIsTyping(false), PAUSE_DURATION);
@@ -125,11 +139,11 @@ const Home = () => {
         setText(prev => prev.slice(0, -1));
         setCharIndex(prev => prev - 1);
       } else {
-        setWordIndex(prev => (prev + 1) % WORDS.length);
+        setWordIndex(prev => (prev + 1) % words.length);
         setIsTyping(true);
       }
     }
-  }, [charIndex, isTyping, wordIndex]);
+  }, [charIndex, isTyping, wordIndex, words]);
 
   useEffect(() => {
     const timeout = setTimeout(handleTyping, isTyping ? TYPING_SPEED : ERASING_SPEED);
@@ -139,12 +153,12 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Luis Esteban Castillo Pedroza — FullStack AI Engineer</title>
-        <meta name="description" content="Portfolio of Luis Esteban Castillo Pedroza, FullStack AI Engineer. Building intelligent systems that combine software engineering with AI to deliver real-world impact." />
+        <title>{t('home.meta_title')}</title>
+        <meta name="description" content={t('home.meta_description')} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://lxiscxstillo.vercel.app" />
-        <meta property="og:title" content="Luis Esteban Castillo Pedroza — FullStack AI Engineer" />
-        <meta property="og:description" content="Portfolio of Luis Esteban Castillo Pedroza, FullStack AI Engineer." />
+        <meta property="og:title" content={t('home.meta_og_title')} />
+        <meta property="og:description" content={t('home.meta_og_description')} />
         <meta property="og:url" content="https://lxiscxstillo.vercel.app" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{`
@@ -206,7 +220,7 @@ const Home = () => {
                   {/* Social Links */}
                   <div className="hidden sm:flex gap-4 justify-start" data-aos="fade-up" data-aos-delay="1600">
                     {SOCIAL_LINKS.map((social, index) => (
-                      <SocialLink key={index} {...social} />
+                      <SocialLink key={index} icon={social.icon} link={social.link} labelKey={social.labelKey} />
                     ))}
                   </div>
                 </div>
@@ -223,18 +237,21 @@ const Home = () => {
                     isHovering ? "opacity-50 scale-105" : "opacity-20 scale-100"
                   }`}></div>
 
-                  <div className={`relative lg:left-12 z-10 w-full opacity-90 transform transition-transform duration-500 ${
+                  <div className={`relative lg:left-12 z-10 w-full opacity-90 transform transition-transform duration-500 flex items-center justify-center ${
                     isHovering ? "scale-105" : "scale-100"
                   }`}>
-                    <img
-                      src="Animation1.gif"
-                      alt="Developer Animation"
-                      className={`w-full h-full object-contain transition-all duration-500 ${
-                        isHovering
-                          ? "scale-[95%] sm:scale-[90%] md:scale-[90%] lg:scale-[90%] rotate-2"
-                          : "scale-[90%] sm:scale-[80%] md:scale-[80%] lg:scale-[80%]"
-                      }`}
-                    />
+                    <div className="relative">
+                      <div className="absolute -inset-4 bg-gradient-to-r from-white/20 to-gray-400/20 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-700" />
+                      <img
+                        src="https://github.com/lxiscxstillo.png"
+                        alt="Luis Castillo"
+                        className={`relative rounded-full object-cover border-4 border-white/20 shadow-[0_0_60px_rgba(255,255,255,0.15)] transition-all duration-500 ${
+                          isHovering
+                            ? "w-[220px] h-[220px] sm:w-[300px] sm:h-[300px] lg:w-[380px] lg:h-[380px] border-white/40"
+                            : "w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] lg:w-[360px] lg:h-[360px]"
+                        }`}
+                      />
+                    </div>
                   </div>
 
                   <div className={`absolute inset-0 pointer-events-none transition-all duration-700 ${

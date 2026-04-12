@@ -31,8 +31,8 @@ const ContactPage = () => {
     setIsSubmitting(true);
 
     Swal.fire({
-      title: "Sending Message...",
-      html: "Please wait while we send your message",
+      title: t('contact.swal_sending_title'),
+      html: t('contact.swal_sending_html'),
       allowOutsideClick: false,
       background: "#111111",
       color: "#ffffff",
@@ -55,8 +55,8 @@ const ContactPage = () => {
       });
 
       Swal.fire({
-        title: "Sent!",
-        text: "Your message has been sent successfully!",
+        title: t('contact.swal_success_title'),
+        text: t('contact.swal_success_text'),
         icon: "success",
         confirmButtonColor: "#ffffff",
         confirmButtonText: "OK",
@@ -83,8 +83,8 @@ const ContactPage = () => {
         setFormData({ name: "", email: "", message: "" });
       } else {
         Swal.fire({
-          title: "Error",
-          text: "Something went wrong. Please try again later.",
+          title: t('contact.swal_error_title'),
+          text: t('contact.swal_error_text'),
           icon: "error",
           confirmButtonColor: "#ffffff",
           background: "#111111",

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
+import { useTheme } from "../context/ThemeContext";
 import {
   ArrowLeft,
   ExternalLink,
@@ -44,57 +46,120 @@ const TechBadge = ({ tech }) => {
   );
 };
 
-const FeatureItem = ({ feature }) => {
+// Supports plain strings OR bilingual objects: { en: "...", es: "..." }
+const resolveText = (value, lang) => {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object') return value[lang] || value.en || '';
+  return String(value);
+};
+
+const FeatureItem = ({ feature, isLight, lang }) => {
   return (
-    <li className="group flex items-start space-x-3 p-2.5 md:p-3.5 rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10">
+    <li
+      className="group flex items-start space-x-3 p-2.5 md:p-3.5 rounded-xl transition-all duration-300 border border-transparent"
+      style={{}}
+      onMouseEnter={e => {
+        e.currentTarget.style.background = isLight ? 'rgba(99,102,241,0.06)' : 'rgba(255,255,255,0.05)';
+        e.currentTarget.style.borderColor = isLight ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.10)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.background = 'transparent';
+        e.currentTarget.style.borderColor = 'transparent';
+      }}
+    >
       <div className="relative mt-2">
         <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur group-hover:opacity-100 opacity-0 transition-opacity duration-300" />
         <div className="relative w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 group-hover:scale-125 transition-transform duration-300" />
       </div>
-      <span className="text-sm md:text-base text-gray-300 group-hover:text-white transition-colors">
-        {feature}
+      <span
+        className="text-sm md:text-base transition-colors"
+        style={{ color: isLight ? '#475569' : 'rgba(209,213,219,1)' }}
+      >
+        {resolveText(feature, lang)}
       </span>
     </li>
   );
 };
 
-const ProjectStats = ({ project }) => {
-  const techStackCount = project?.TechStack?.length || 0;
-  const featuresCount = project?.Features?.length || 0;
+const ProjectStats = ({ project, isLight }) => {
+  const { t } = useLanguage();
+  const techStackCount = project?.tech_stack?.length || 0;
+  const featuresCount = project?.features?.length || 0;
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:gap-4 p-3 md:p-4 bg-[#0a0a1a] rounded-xl overflow-hidden relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 opacity-50 blur-2xl z-0" />
-      <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border border-blue-500/20 transition-all duration-300 hover:scale-105 hover:border-blue-500/50 hover:shadow-lg">
-        <div className="bg-blue-500/20 p-1.5 md:p-2 rounded-full">
+    <div
+      className="grid grid-cols-2 gap-3 md:gap-4 p-3 md:p-4 rounded-xl overflow-hidden relative"
+      style={isLight ? {
+        background: 'rgba(238,242,255,0.70)',
+        border: '1px solid rgba(99,102,241,0.14)',
+      } : {
+        background: '#0a0a1a',
+      }}
+    >
+      {!isLight && <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 opacity-50 blur-2xl z-0" />}
+      <div
+        className="relative z-10 flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-lg"
+        style={isLight ? {
+          background: 'rgba(255,255,255,0.80)',
+          borderColor: 'rgba(99,102,241,0.22)',
+        } : {
+          background: 'rgba(255,255,255,0.05)',
+          borderColor: 'rgba(59,130,246,0.20)',
+        }}
+      >
+        <div
+          className="p-1.5 md:p-2 rounded-full"
+          style={{ background: isLight ? 'rgba(99,102,241,0.12)' : 'rgba(59,130,246,0.20)' }}
+        >
           <Code2
-            className="text-blue-300 w-4 h-4 md:w-6 md:h-6"
+            className="w-4 h-4 md:w-6 md:h-6"
+            style={{ color: isLight ? '#4f46e5' : '#93c5fd' }}
             strokeWidth={1.5}
           />
         </div>
         <div className="flex-grow">
-          <div className="text-lg md:text-xl font-semibold text-blue-200">
+          <div
+            className="text-lg md:text-xl font-semibold"
+            style={{ color: isLight ? '#3730a3' : '#bfdbfe' }}
+          >
             {techStackCount}
           </div>
-          <div className="text-[10px] md:text-xs text-gray-400">
-            Total Teknologi
+          <div className="text-[10px] md:text-xs" style={{ color: isLight ? '#64748b' : '#9ca3af' }}>
+            {t('project.total_tech')}
           </div>
         </div>
       </div>
 
-      <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border border-purple-500/20 transition-all duration-300 hover:scale-105 hover:border-purple-500/50 hover:shadow-lg">
-        <div className="bg-purple-500/20 p-1.5 md:p-2 rounded-full">
+      <div
+        className="relative z-10 flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-lg"
+        style={isLight ? {
+          background: 'rgba(255,255,255,0.80)',
+          borderColor: 'rgba(139,92,246,0.22)',
+        } : {
+          background: 'rgba(255,255,255,0.05)',
+          borderColor: 'rgba(139,92,246,0.20)',
+        }}
+      >
+        <div
+          className="p-1.5 md:p-2 rounded-full"
+          style={{ background: isLight ? 'rgba(139,92,246,0.12)' : 'rgba(139,92,246,0.20)' }}
+        >
           <Layers
-            className="text-purple-300 w-4 h-4 md:w-6 md:h-6"
+            className="w-4 h-4 md:w-6 md:h-6"
+            style={{ color: isLight ? '#7c3aed' : '#c4b5fd' }}
             strokeWidth={1.5}
           />
         </div>
         <div className="flex-grow">
-          <div className="text-lg md:text-xl font-semibold text-purple-200">
+          <div
+            className="text-lg md:text-xl font-semibold"
+            style={{ color: isLight ? '#6d28d9' : '#ddd6fe' }}
+          >
             {featuresCount}
           </div>
-          <div className="text-[10px] md:text-xs text-gray-400">
-            Fitur Utama
+          <div className="text-[10px] md:text-xs" style={{ color: isLight ? '#64748b' : '#9ca3af' }}>
+            {t('project.key_features')}
           </div>
         </div>
       </div>
@@ -102,27 +167,30 @@ const ProjectStats = ({ project }) => {
   );
 };
 
-const handleGithubClick = (githubLink) => {
-  if (githubLink === "Private") {
-    Swal.fire({
-      icon: "info",
-      title: "Source Code Private",
-      text: "Maaf, source code untuk proyek ini bersifat privat.",
-      confirmButtonText: "Mengerti",
-      confirmButtonColor: "#3085d6",
-      background: "#0A0A0A",
-      color: "#ffffff",
-    });
-    return false;
-  }
-  return true;
-};
-
 const ProjectDetails = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { t, lang } = useLanguage();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const [project, setProject] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  const handleGithubClick = (githubLink) => {
+    if (githubLink === "Private") {
+      Swal.fire({
+        icon: "info",
+        title: t('project.private_title'),
+        text: t('project.private_text'),
+        confirmButtonText: t('project.private_confirm'),
+        confirmButtonColor: "#3085d6",
+        background: "#0A0A0A",
+        color: "#ffffff",
+      });
+      return false;
+    }
+    return true;
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -145,11 +213,23 @@ const ProjectDetails = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: isLight ? 'linear-gradient(145deg,#f8faff,#edf1ff,#f3f6fb)' : '#0A0A0A' }}
+      >
         <div className="text-center space-y-6 animate-fadeIn">
-          <div className="w-16 h-16 md:w-24 md:h-24 mx-auto border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
-          <h2 className="text-xl md:text-3xl font-bold text-white">
-            Loading Project...
+          <div
+            className="w-16 h-16 md:w-24 md:h-24 mx-auto border-4 rounded-full animate-spin"
+            style={{
+              borderColor: isLight ? 'rgba(99,102,241,0.25)' : 'rgba(59,130,246,0.30)',
+              borderTopColor: isLight ? '#4f46e5' : '#3b82f6',
+            }}
+          />
+          <h2
+            className="text-xl md:text-3xl font-bold"
+            style={{ color: isLight ? '#0f172a' : '#ffffff' }}
+          >
+            {t('project.loading')}
           </h2>
         </div>
       </div>
@@ -199,7 +279,7 @@ const ProjectDetails = () => {
         `}</script>
       </Helmet>
 
-      <div className="min-h-screen bg-[#0A0A0A] px-[2%] sm:px-0 relative overflow-hidden">
+      <div className="min-h-screen px-[2%] sm:px-0 relative overflow-hidden" style={{ background: isLight ? 'transparent' : '#0A0A0A' }}>
         <div className="fixed inset-0">
           <div className="absolute -inset-[10px] opacity-20">
             <div className="absolute top-0 -left-4 w-72 md:w-96 h-72 md:h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
@@ -214,15 +294,30 @@ const ProjectDetails = () => {
             <div className="flex items-center space-x-2 md:space-x-4 mb-8 md:mb-12 animate-fadeIn">
               <button
                 onClick={() => navigate(-1)}
-                className="group inline-flex items-center space-x-1.5 md:space-x-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/5 backdrop-blur-xl rounded-xl text-white/90 hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20 text-sm md:text-base"
+                className="group inline-flex items-center space-x-1.5 md:space-x-2 px-3 md:px-5 py-2 md:py-2.5 backdrop-blur-xl rounded-xl transition-all duration-300 text-sm md:text-base"
+                style={isLight ? {
+                  background: 'rgba(255,255,255,0.85)',
+                  border: '1px solid rgba(99,102,241,0.16)',
+                  color: '#1e293b',
+                  boxShadow: '0 2px 8px rgba(15,23,42,0.06)',
+                } : {
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  color: 'rgba(255,255,255,0.90)',
+                }}
               >
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
-                <span>Back</span>
+                <span>{t('project.back')}</span>
               </button>
-              <div className="flex items-center space-x-1 md:space-x-2 text-sm md:text-base text-white/50">
-                <span>Projects</span>
+              <div
+                className="flex items-center space-x-1 md:space-x-2 text-sm md:text-base"
+                style={{ color: isLight ? '#64748b' : 'rgba(255,255,255,0.50)' }}
+              >
+                <span>{t('project.breadcrumb_projects')}</span>
                 <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
-                <span className="text-white/90 truncate">{project.title}</span>
+                <span style={{ color: isLight ? '#1e293b' : 'rgba(255,255,255,0.90)' }} className="truncate">
+                  {project.title}
+                </span>
               </div>
             </div>
 
@@ -238,45 +333,88 @@ const ProjectDetails = () => {
                   </div>
                 </div>
 
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-base md:text-lg text-gray-300/90 leading-relaxed">
-                    {project.description}
+                <div className="prose max-w-none">
+                  <p
+                    className="text-base md:text-lg leading-relaxed"
+                    style={{ color: isLight ? '#475569' : 'rgba(209,213,219,0.90)' }}
+                  >
+                    {lang === 'es' && project.description_es
+                      ? project.description_es
+                      : project.description}
                   </p>
                 </div>
 
-                <ProjectStats project={project} />
+                <ProjectStats project={project} isLight={isLight} />
 
                 <div className="flex flex-wrap gap-3 md:gap-4">
                   <a
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-blue-600/10 to-purple-600/10 hover:from-blue-600/20 hover:to-purple-600/20 text-blue-300 rounded-xl transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
+                    className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 rounded-xl transition-all duration-300 backdrop-blur-xl overflow-hidden text-sm md:text-base"
+                    style={isLight ? {
+                      background: 'rgba(99,102,241,0.08)',
+                      border: '1px solid rgba(99,102,241,0.22)',
+                      color: '#4338ca',
+                    } : {
+                      background: 'linear-gradient(to right, rgba(37,99,235,0.10), rgba(124,58,237,0.10))',
+                      border: '1px solid rgba(59,130,246,0.20)',
+                      color: '#93c5fd',
+                    }}
                   >
-                    <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-blue-600/10 to-purple-600/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
+                    <div
+                      className="absolute inset-0 translate-y-[100%] transition-transform duration-300 group-hover:translate-y-[0%]"
+                      style={{
+                        background: isLight
+                          ? 'rgba(99,102,241,0.10)'
+                          : 'linear-gradient(to right, rgba(37,99,235,0.10), rgba(124,58,237,0.10))',
+                      }}
+                    />
                     <ExternalLink className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
-                    <span className="relative font-medium">Live Demo</span>
+                    <span className="relative font-medium">{t('project.live_demo')}</span>
                   </a>
 
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-purple-600/10 to-pink-600/10 hover:from-purple-600/20 hover:to-pink-600/20 text-purple-300 rounded-xl transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
+                    className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 rounded-xl transition-all duration-300 backdrop-blur-xl overflow-hidden text-sm md:text-base"
+                    style={isLight ? {
+                      background: 'rgba(139,92,246,0.08)',
+                      border: '1px solid rgba(139,92,246,0.22)',
+                      color: '#6d28d9',
+                    } : {
+                      background: 'linear-gradient(to right, rgba(124,58,237,0.10), rgba(236,72,153,0.10))',
+                      border: '1px solid rgba(139,92,246,0.20)',
+                      color: '#c4b5fd',
+                    }}
                     onClick={(e) =>
                       !handleGithubClick(project.github) && e.preventDefault()
                     }
                   >
-                    <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-purple-600/10 to-pink-600/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
+                    <div
+                      className="absolute inset-0 translate-y-[100%] transition-transform duration-300 group-hover:translate-y-[0%]"
+                      style={{
+                        background: isLight
+                          ? 'rgba(139,92,246,0.10)'
+                          : 'linear-gradient(to right, rgba(124,58,237,0.10), rgba(236,72,153,0.10))',
+                      }}
+                    />
                     <Github className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
                     <span className="relative font-medium">Github</span>
                   </a>
                 </div>
 
                 <div className="space-y-4 md:space-y-6">
-                  <h3 className="text-lg md:text-xl font-semibold text-white/90 mt-[3rem] md:mt-0 flex items-center gap-2 md:gap-3">
-                    <Code2 className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
-                    Technologies Used
+                  <h3
+                    className="text-lg md:text-xl font-semibold mt-[3rem] md:mt-0 flex items-center gap-2 md:gap-3"
+                    style={{ color: isLight ? '#1e293b' : 'rgba(255,255,255,0.90)' }}
+                  >
+                    <Code2
+                      className="w-4 h-4 md:w-5 md:h-5"
+                      style={{ color: isLight ? '#4f46e5' : '#60a5fa' }}
+                    />
+                    {t('project.technologies')}
                   </h3>
                   {project.tech_stack.length > 0 ? (
                     <div className="flex flex-wrap gap-2 md:gap-3">
@@ -286,15 +424,28 @@ const ProjectDetails = () => {
                     </div>
                   ) : (
                     <p className="text-sm md:text-base text-gray-400 opacity-50">
-                      No technologies added.
+                      {t('project.no_tech')}
                     </p>
                   )}
                 </div>
               </div>
 
               <div className="space-y-6 md:space-y-10 animate-slideInRight">
-                <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div
+                  className="relative rounded-2xl overflow-hidden shadow-2xl group"
+                  style={{
+                    border: isLight ? '1px solid rgba(99,102,241,0.14)' : '1px solid rgba(255,255,255,0.10)',
+                    boxShadow: isLight ? '0 8px 32px rgba(99,102,241,0.10)' : undefined,
+                  }}
+                >
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: isLight
+                        ? 'linear-gradient(to top, rgba(238,242,255,0.60), transparent)'
+                        : 'linear-gradient(to top, #0A0A0A, transparent)',
+                    }}
+                  />
                   <img
                     src={project.img}
                     alt={project.title}
@@ -304,20 +455,44 @@ const ProjectDetails = () => {
                   <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/10 transition-colors duration-300 rounded-2xl" />
                 </div>
 
-                <div className="bg-white/[0.02] backdrop-blur-xl rounded-2xl p-8 border border-white/10 space-y-6 hover:border-white/20 transition-colors duration-300 group">
-                  <h3 className="text-xl font-semibold text-white/90 flex items-center gap-3">
-                    <Star className="w-5 h-5 text-yellow-400 group-hover:rotate-[20deg] transition-transform duration-300" />
-                    Key Features
+                <div
+                  className="backdrop-blur-xl rounded-2xl p-8 space-y-6 transition-all duration-300 group"
+                  style={isLight ? {
+                    background: 'rgba(255,255,255,0.88)',
+                    border: '1px solid rgba(99,102,241,0.12)',
+                    boxShadow: '0 4px 24px rgba(99,102,241,0.07)',
+                  } : {
+                    background: 'rgba(255,255,255,0.02)',
+                    border: '1px solid rgba(255,255,255,0.10)',
+                  }}
+                  onMouseEnter={e => {
+                    if (isLight) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.22)';
+                    else e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
+                  }}
+                  onMouseLeave={e => {
+                    if (isLight) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.12)';
+                    else e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)';
+                  }}
+                >
+                  <h3
+                    className="text-xl font-semibold flex items-center gap-3"
+                    style={{ color: isLight ? '#1e293b' : 'rgba(255,255,255,0.90)' }}
+                  >
+                    <Star
+                      className="w-5 h-5 group-hover:rotate-[20deg] transition-transform duration-300"
+                      style={{ color: isLight ? '#d97706' : '#facc15' }}
+                    />
+                    {t('project.features')}
                   </h3>
                   {project.features.length > 0 ? (
                     <ul className="list-none space-y-2">
                       {project.features.map((feature, index) => (
-                        <FeatureItem key={index} feature={feature} />
+                        <FeatureItem key={index} feature={feature} isLight={isLight} lang={lang} />
                       ))}
                     </ul>
                   ) : (
                     <p className="text-gray-400 opacity-50">
-                      No features added.
+                      {t('project.no_features')}
                     </p>
                   )}
                 </div>
@@ -326,7 +501,7 @@ const ProjectDetails = () => {
           </div>
         </div>
 
-        <style jsx>{`
+        <style>{`
           @keyframes blob {
             0% {
               transform: translate(0px, 0px) scale(1);

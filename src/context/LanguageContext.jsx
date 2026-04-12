@@ -8,7 +8,10 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [lang, setLang] = useState(() => {
-    return localStorage.getItem('portfolio-lang') || 'en';
+    const stored = localStorage.getItem('portfolio-lang');
+    if (stored) return stored;
+    if (typeof navigator !== 'undefined' && navigator.language?.startsWith('es')) return 'es';
+    return 'en';
   });
 
   const t = useCallback((key) => {

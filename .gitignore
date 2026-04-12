@@ -29,3 +29,10 @@ dist/
 .vercel
 .claude/settings.local.json
 .specify/
+
+# Claude IDE tooling
+.claude/skills/
+.claude/plugins/
+
+# CV source files (Reactive Resume exports — not a web asset)
+smart-purple-wallaby*.json

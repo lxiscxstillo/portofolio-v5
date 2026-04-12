@@ -20,6 +20,7 @@ const ContactPage = lazy(() => import("./Pages/Contact"));
 const ProjectDetails = lazy(() => import("./components/ProjectDetail"));
 const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen"));
 const NotFoundPage = lazy(() => import("./Pages/404"));
+const TestimonialsSection = lazy(() => import("./components/TestimonialsSection"));
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
@@ -39,6 +40,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <About />
           <Suspense fallback={<div className="h-20" />}>
             <Portofolio />
+            <TestimonialsSection />
             <ContactPage />
           </Suspense>
           <Footer />
@@ -67,7 +69,7 @@ function App() {
           <div className="pointer-events-none">
             <AnimatedBackground />
           </div>
-          <BrowserRouter>
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
               {/* PUBLIC */}
               <Route

@@ -12,8 +12,9 @@ const Footer = () => {
   const quickLinks = [
     { href: "#Home",       labelKey: "nav.home" },
     { href: "#About",      labelKey: "nav.about" },
-    { href: "#Portofolio", labelKey: "nav.portfolio" },
-    { href: "#Contact",    labelKey: "nav.contact" },
+    { href: "#Portofolio",   labelKey: "nav.portfolio" },
+    { href: "#Testimonials", labelKey: "nav.testimonials" },
+    { href: "#Contact",      labelKey: "nav.contact" },
   ];
 
   const socialLinks = [
@@ -53,7 +54,9 @@ const Footer = () => {
 
   return (
     <footer
-      className={`w-full border-t ${borderColor} mt-10`}
+      className={`relative z-10 w-full border-t ${borderColor} mt-10 ${
+        isLight ? "bg-white" : "bg-[#0A0A0A]"
+      }`}
       role="contentinfo"
     >
       <div className="px-[5%] sm:px-[5%] lg:px-[10%] py-12">
@@ -147,7 +150,7 @@ const Footer = () => {
             {t("footer.rights")}
           </span>
           <span className={`text-xs ${textMuted}`}>
-            FullStack AI Engineer
+            {t("footer.role")}
           </span>
         </div>
       </div>

@@ -12,10 +12,11 @@ const Navbar = () => {
     const { theme, toggleTheme } = useTheme();
 
     const navItems = [
-        { href: "#Home",       labelKey: "nav.home" },
-        { href: "#About",      labelKey: "nav.about" },
-        { href: "#Portofolio", labelKey: "nav.portfolio" },
-        { href: "#Contact",    labelKey: "nav.contact" },
+        { href: "#Home",         labelKey: "nav.home" },
+        { href: "#About",        labelKey: "nav.about" },
+        { href: "#Portofolio",   labelKey: "nav.portfolio" },
+        { href: "#Testimonials", labelKey: "nav.testimonials" },
+        { href: "#Contact",      labelKey: "nav.contact" },
     ];
 
     useEffect(() => {
@@ -134,7 +135,7 @@ const Navbar = () => {
                         <div className="flex items-center gap-2 ml-2">
                             <button
                                 onClick={toggleLang}
-                                title={lang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+                                title={lang === 'en' ? t('nav.toggle_lang_to_es') : t('nav.toggle_lang_to_en')}
                                 className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all duration-200 cursor-pointer select-none ${
                                     isLight
                                         ? "border-black/15 text-gray-700 hover:bg-black/5"
@@ -146,7 +147,7 @@ const Navbar = () => {
 
                             <button
                                 onClick={toggleTheme}
-                                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                                title={theme === 'dark' ? t('nav.toggle_theme_to_light') : t('nav.toggle_theme_to_dark')}
                                 className={`p-2 rounded-lg border transition-all duration-200 cursor-pointer ${
                                     isLight
                                         ? "border-black/15 text-gray-700 hover:bg-black/5"

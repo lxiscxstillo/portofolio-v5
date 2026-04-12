@@ -15,6 +15,7 @@ const Navbar = () => {
         { href: "#Home",         labelKey: "nav.home" },
         { href: "#About",        labelKey: "nav.about" },
         { href: "#Portofolio",   labelKey: "nav.portfolio" },
+        { href: "#GitHub",       labelKey: "nav.github" },
         { href: "#Testimonials", labelKey: "nav.testimonials" },
         { href: "#Contact",      labelKey: "nav.contact" },
     ];

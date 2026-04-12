@@ -21,6 +21,7 @@ const ProjectDetails = lazy(() => import("./components/ProjectDetail"));
 const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen"));
 const NotFoundPage = lazy(() => import("./Pages/404"));
 const TestimonialsSection = lazy(() => import("./components/TestimonialsSection"));
+const GitHubActivity = lazy(() => import("./components/GitHubActivity"));
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
@@ -40,6 +41,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <About />
           <Suspense fallback={<div className="h-20" />}>
             <Portofolio />
+            <GitHubActivity />
             <TestimonialsSection />
             <ContactPage />
           </Suspense>

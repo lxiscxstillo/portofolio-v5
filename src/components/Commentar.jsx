@@ -359,13 +359,14 @@ const Komentar = () => {
         fetchPinnedComment();
     }, []);
 
-    /* All non-pinned testimonials */
+    /* Only approved non-pinned testimonials for public view */
     useEffect(() => {
         const fetchComments = async () => {
             const { data, error } = await supabase
                 .from('portfolio_comments')
                 .select('*')
                 .eq('is_pinned', false)
+                .eq('is_approved', true)
                 .order('created_at', { ascending: false });
             if (error) {
                 setError(t('testimonials.error_load'));
@@ -403,7 +404,7 @@ const Komentar = () => {
         return data.publicUrl;
     }, []);
 
-    /* Submit handler — saves with is_approved: false, shows toast */
+    /* Submit handler — saves with is_approved: null (pending review) */
     const handleCommentSubmit = useCallback(async ({ newComment, userName, userRole, userCompany, imageFile }) => {
         setError('');
         setIsSubmitting(true);
@@ -418,11 +419,27 @@ const Komentar = () => {
                     user_company: userCompany || null,
                     profile_image: profileImageUrl,
                     is_pinned: false,
+                    is_approved: null,
                     device_id: deviceId.current,
                     created_at: new Date().toISOString()
                 }]);
             if (error) throw new Error('insert');
             setHasCommented(true);
+
+            /* Email notification to admin */
+            try {
+                const form = new FormData();
+                form.append('name', 'Portfolio Bot');
+                form.append('email', 'luisestebancastillopedroza90@gmail.com');
+                form.append('_subject', '📩 New testimonial pending review');
+                form.append('_captcha', 'false');
+                form.append('message',
+                    `New testimonial from ${userName}${userRole ? ` (${userRole}${userCompany ? ` @ ${userCompany}` : ''})` : ''}:\n\n"${newComment}"\n\nReview it at: https://lxiscxstillo.vercel.app/dashboard/comments`
+                );
+                await fetch('https://formsubmit.co/luisestebancastillopedroza90@gmail.com', {
+                    method: 'POST', body: form,
+                });
+            } catch (_) { /* notification failure is non-blocking */ }
 
             /* Toast notification */
             Swal.fire({

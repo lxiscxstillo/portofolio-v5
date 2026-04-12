@@ -92,6 +92,31 @@ body {
 	background: transparent;
   }
 
+/* Tech stack card back — thin scrollbar override */
+.techstack-desc {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.35) transparent;
+}
+.techstack-desc::-webkit-scrollbar {
+  display: block;
+  width: 3px;
+}
+.techstack-desc::-webkit-scrollbar-track {
+  background: transparent;
+  border: none;
+}
+.techstack-desc::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.35);
+  border-radius: 99px;
+  border: none;
+  box-shadow: none;
+}
+.techstack-desc::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.60);
+  box-shadow: none;
+  border: none;
+}
+
   [data-aos] {
 	will-change: transform, opacity !important;
   }

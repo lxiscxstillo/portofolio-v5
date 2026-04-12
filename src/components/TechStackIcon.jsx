@@ -63,7 +63,7 @@ const TechStackIcon = ({ TechStackIcon, Language, description }) => {
 
         {/* Back */}
         <div
-          className="absolute inset-0 rounded-2xl flex flex-col items-center justify-center gap-2 px-4 py-4 shadow-xl"
+          className="absolute inset-0 rounded-2xl flex flex-col items-center gap-2 px-4 pt-4 pb-3 shadow-xl overflow-hidden"
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
@@ -73,17 +73,17 @@ const TechStackIcon = ({ TechStackIcon, Language, description }) => {
           }}
         >
           <span
-            className="font-bold text-sm tracking-wide"
+            className="flex-shrink-0 font-bold text-sm tracking-wide"
             style={{ color: isLight ? '#1e293b' : '#ffffff' }}
           >
             {Language}
           </span>
           <div
-            className="w-8 h-px rounded-full"
+            className="flex-shrink-0 w-8 h-px rounded-full"
             style={{ background: isLight ? 'rgba(99,102,241,0.35)' : 'rgba(255,255,255,0.25)' }}
           />
           <p
-            className="text-[11px] md:text-xs text-center leading-relaxed"
+            className="techstack-desc flex-1 w-full text-[11px] md:text-xs text-center leading-relaxed overflow-y-auto"
             style={{ color: isLight ? '#475569' : '#cbd5e1' }}
           >
             {description}

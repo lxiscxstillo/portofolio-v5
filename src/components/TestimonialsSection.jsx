@@ -172,6 +172,7 @@ const TestimonialsSection = () => {
           .from("portfolio_comments")
           .select("*")
           .eq("is_pinned", false)
+          .eq("is_approved", true)
           .order("created_at", { ascending: false })
           .limit(8),
       ]);

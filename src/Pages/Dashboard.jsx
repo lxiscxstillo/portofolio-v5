@@ -7,9 +7,9 @@ import Comments from './dashboard/Comments'
 import { FolderGit2, Award, MessageSquare, LogOut, LayoutDashboard, Menu } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { to: 'projects', label: 'Projects', icon: FolderGit2 },
-  { to: 'certificates', label: 'Certificates', icon: Award },
-  { to: 'comments', label: 'Comments', icon: MessageSquare },
+  { to: '/dashboard/projects', label: 'Projects', icon: FolderGit2 },
+  { to: '/dashboard/certificates', label: 'Certificates', icon: Award },
+  { to: '/dashboard/comments', label: 'Comments', icon: MessageSquare },
 ]
 
 export default function Dashboard() {

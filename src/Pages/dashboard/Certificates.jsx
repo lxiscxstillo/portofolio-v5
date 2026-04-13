@@ -32,7 +32,7 @@ const CertCard = ({ cert, onDelete }) => {
           <div className="w-full aspect-[16/11.5] bg-white/5 animate-pulse" />
         )}
         <img
-          src={cert.Img}
+          src={cert.img}
           alt="Certificate"
           onLoad={() => setImgLoaded(true)}
           className={`w-full aspect-[16/11.5] object-cover group-hover:scale-105 transition-transform duration-500 ${imgLoaded ? 'block' : 'hidden'}`}
@@ -78,12 +78,36 @@ export default function Certificates() {
   const uploadImage = async () => {
     if (!file) return
     setUploading(true)
-    const fileName = `cert-${Date.now()}-${file.name}`
-    await supabase.storage.from('certificate-images').upload(fileName, file)
-    const { data } = supabase.storage.from('certificate-images').getPublicUrl(fileName)
-    await supabase.from('certificates').insert({ Img: data.publicUrl })
-    setFile(null); setPreview(null); setUploading(false)
-    fetchCerts()
+    try {
+      const fileName = `cert-${Date.now()}-${file.name}`
+      const { error: storageError } = await supabase.storage
+        .from('certificate-images')
+        .upload(fileName, file)
+
+      if (storageError) {
+        alert(`Error al subir la imagen al storage: ${storageError.message}`)
+        setUploading(false)
+        return
+      }
+
+      const { data } = supabase.storage.from('certificate-images').getPublicUrl(fileName)
+
+      const { error: dbError } = await supabase.from('certificates').insert({ img: data.publicUrl })
+
+      if (dbError) {
+        alert(`Error al guardar en la base de datos: ${dbError.message}`)
+        setUploading(false)
+        return
+      }
+
+      setFile(null)
+      setPreview(null)
+      fetchCerts()
+    } catch (err) {
+      alert(`Error inesperado: ${err.message}`)
+    } finally {
+      setUploading(false)
+    }
   }
 
   const deleteCert = async (id) => {
